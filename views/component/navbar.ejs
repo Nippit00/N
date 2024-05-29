@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.0/css/all.css'
+    integrity='sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ' crossorigin='anonymous'>
+  <style>
+    /* Your custom CSS styles go here */
+    nav {
+      background-color: #00B2A9;
+      color: #000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0px 0px;
+      height: 70px;
+      box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.5);
+    }
+
+    nav a {
+      display: flex;
+      align-items: center;
+      background-color: #dcb432;
+      padding: 10px 20px;
+      border-radius: 20px;
+      text-decoration: none;
+      color: white;
+      transition: background-color 0.3s, color 0.3s;
+      margin-left: 20px;
+    }
+
+    nav a:hover {
+      background-color: #dcb432;
+    }
+
+    .city-text {
+      margin-left: 5px;
+    }
+
+    ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+    }
+
+    li {
+      margin-left: 20px;
+      margin-right: 20px;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border-radius: 20px;
+      text-decoration: none;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .btn:hover {
+      background-color: #d0a519;
+    }
+
+    .bg-green-300 {
+      background-color: #dcb432;
+    }
+
+    .bg-red-300 {
+      background-color: #dcb432;
+    }
+
+
+    @media screen and (max-width: 768px) {
+      nav {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      nav a {
+        margin-bottom: 10px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <nav>
+    <a href="/">
+      <i class="fas fa-home"></i>
+      <span class="city-text">depa - Smart City Overview on Real-time Evaluation</span>
+    </a>
+    <div>
+      <ul style="background-color: #fff; margin-top: -10px; padding: 10px; border-radius: 0px 0px 0px 50px; box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.5);">
+        <li>
+          <img src="/img/favii.png" alt="Description of the image" style="max-width: 200px; max-height: 200px;">
+        </li>
+        <% if (!isAuthenticated) { %>
+        <li>
+          <a class="btn bg-green-300" href="/login">SIGN IN</a>
+        </li>
+        <% } else { %>
+        <li>
+          <form action="/logout" method="POST">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <button class="btn bg-red-300">Log out</button>
+          </form>
+        </li>
+        <% } %>
+      </ul>      
+    </div>
+  </nav>
+</body>
+
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/styles.css">
+    <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.0/css/all.css' integrity='sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ' crossorigin='anonymous'>
+    <style>
+        .menu-row {
+            display: flex;
+            justify-content: center;
+            position: relative;
+            top: -250px;
+            /* ปรับค่าตามที่ต้องการ */
+        }
+
+        .menu {
+            list-style: none;
+            padding: 0;
+            display: flex;
+        }
+
+        .menu li {
+            margin: 0 10px;
+        }
+
+        .menu a {
+            text-decoration: none;
+            background-color: #dcb432;
+            color: whitesmoke;
+            font-weight: bold;
+            padding: 10px 15px;
+            border: 2px solid #dcb432;
+            border-radius: 10px;
+            box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+            transition: background-color 0.3s, color 0.3s, transform 0.3s;
+        }
+
+        .menu a:hover,
+        .menu a.active {
+            background-color: white;
+            border: 2px solid #dcb432;
+            transform: scale(1.05);
+            color: black;
+        }
+
+        .menu li:nth-child(4) a {
+            background-color: #ccc;
+            color: #333;
+        }
+
+        .menu li:nth-child(4) a:hover,
+        .menu li:nth-child(4) a.active {
+            background-color: #ffd700;
+            color: #fff;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="menu-row">
+        <ul class="menu">
+            <li><a href="/city" onclick="activateButton(this)"><i class="fas fa-building"></i> แผน smart city</a></li>
+            <li><a href="/city/dashboard" onclick="activateButton(this)"><i class="fas fa-chart-line"></i> ผลรายงานความคืบหน้า dashboard</a></li>
+            <li><a href="/city/follow" onclick="activateButton(this)"><i class="fas fa-project-diagram"></i> รายงานความคืบหน้ารายโครงการ</a></li>
+            <li><a href="/city/upload" onclick="activateButton(this)"><i class="fas fa-download"></i> ไฟล์รายงานครบ 2 ปี</a></li>
+            <!-- Add more menu items as needed -->
+        </ul>
+    </div>
+
+    <script>
+        function activateButton(element) {
+            // Remove the active class from all buttons
+            const buttons = document.querySelectorAll('.menu a');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+
+            // Add the active class to the clicked button
+            element.classList.add('active');
+        }
+    </script>
+</body>
+
+</html>

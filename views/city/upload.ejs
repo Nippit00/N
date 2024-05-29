@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.0/css/all.css'
+        integrity='sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ'
+        crossorigin='anonymous'>
+    <title>upload</title>
+    <link rel="icon" type="image/x-icon" href="../tracktag/img/favi.png">
+    <style>
+        .title-container {
+            text-align: center;
+            padding: 20px;
+            position: relative;
+            top: -300px;
+        }
+
+        .titles-container {
+            text-align: center;
+            padding: 20px;
+            position: relative;
+            top: 0px;
+        }
+
+        h6 {
+            margin-left: 190px;
+            /* ปรับค่าตามที่คุณต้องการ */
+            position: relative;
+            top: -150px;
+            /* 
+            ปรับค่าตามที่คุณต้องการ */
+        }
+
+        .link-u {
+            margin-left: 190px;
+            /* ปรับค่าตามที่คุณต้องการ */
+            position: relative;
+            top: -150px;
+            /* ปรับค่าตามที่คุณต้องการ */
+        }
+
+        .link-u button {
+            background-color: #007bff;
+            /* สีพื้นหลังของปุ่ม */
+            color: #fff;
+            /* สีข้อความบนปุ่ม */
+            border-radius: 20px;
+            border: none;
+            /* ไม่มีเส้นขอบ */
+            padding: 10px 20px;
+            /* ขนาดขอบของปุ่ม */
+            margin-left: 10px;
+            /* ระยะห่างจากข้อความ */
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            text-align: center;
+        }
+
+        .link-u button:hover {
+            background-color: #0056b3;
+            /* สีพื้นหลังเมื่อผู้ใช้นำเมาส์ไปวางบนปุ่ม */
+        }
+
+        .upload-form-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            border: 2px solid #C2AF76;
+            border-radius: 20px;
+            margin-bottom: 100px;
+            background-color: #fff;
+            /* เพิ่มสีพื้นหลัง */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            /* เพิ่มเงา */
+        }
+
+        .upload-btn,
+        .upload-btn-n {
+            display: inline-block;
+            margin-top: 20px;
+            /* ระยะห่างระหว่างปุ่มและส่วนที่เพิ่มมาข้างบน */
+        }
+
+        .upload-btn {
+            background-color: #ffd700;
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            border-radius: 20px;
+        }
+
+        .upload-btn-n {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            border-radius: 20px;
+        }
+
+        .upload-btn:hover {
+            background-color: #DAA520;
+        }
+
+        .upload-btn-n:hover {
+            background-color: #0056b3;
+        }
+
+        .upload-container {
+            border: 2px dashed #C2AF76;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .upload-container.drag-over {
+            background-color: #f0f8ff;
+            /* เปลี่ยนสีพื้นหลังเมื่อมีการลาก */
+        }
+
+        .upload-container::before {
+            font-size: 30px;
+            color: #007bff;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .upload-container label {
+            cursor: pointer;
+        }
+
+        .upload-container input {
+            display: none;
+        }
+
+        #uploadedFilesContainer {
+            margin-top: 10px;
+        }
+
+        .uploaded-file {
+            background-color: #f0f8ff;
+            /* สีพื้นหลัง */
+            padding: 8px;
+            margin-bottom: 5px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+        }
+
+        .uploaded-file span {
+            margin-left: 10px;
+        }
+
+        .uploaded-file i {
+            font-size: 18px;
+            color: red;
+            /* สีไฮไลต์ */
+            cursor: pointer;
+            margin-left: auto;
+        }
+
+        /* เพิ่มสไตล์เพิ่มเติมตามความต้องการ */
+    </style>
+</head>
+
+<body>
+
+    <!-- ส่วน Navbar -->
+    <%- include('../component/navbar.ejs') %>
+
+    <!-- ส่วน Banner -->
+    <div class="banner">
+        <img src="/img/bbj.png" alt="Banner Image">
+    </div>
+
+    <!-- ส่วน Container หัวข้อ -->
+    <div class="title-container">
+        <h1>ไฟล์รายงานครบ 2 ปี</h1>
+    </div>
+
+    <!-- ส่วน Menu -->
+    <%- include('../component/menu.ejs') %>
+
+    <!-- ส่วนเนื้อหา -->
+    <h6>ท่านสามารถ download ผลสรุปเบื้องต้นได้ดัง link นี้​</h6>
+    <br>
+    <br>
+    <!-- Link สำหรับดาวน์โหลด -->
+    <a href="ตำแหน่งของไฟล์" class="link-u" download>
+        ไฟล์แบบฟอร์มสำหรับเมืองที่ต้องการต่อตราสัญลักษณ์ครบ 2 ปี
+        <button class="btn btn-primary" style="margin-left: 20px;"><i class="fas fa-download"></i> download</button>
+    </a>
+
+    <!-- ฟอร์มอัปโหลด -->
+    <div class="upload-form-container">
+        <form action="/upload" method="post" id="uploadForm" onsubmit="return confirmUpload()">
+            <div class="titles-container">
+                <!-- CSRF Token -->
+                <input type="hidden" name="_csrf" value="<%=csrfToken%>" id="token">
+                <h5>อัปโหลดไฟล์ครบ 2ปี</h5>
+                <!-- ส่วนอัปโหลดไฟล์ -->
+                <div class="upload-container" id="uploadContainer">
+                    <div for="fileToUpload" class="upload-btn" id="uploadBtn">Browse Files or Drop Here</div>
+                    <input type="file" name="fileToUpload" id="fileToUpload">
+                    <span class="file-name" id="fileName"></span>
+                </div>
+                <!-- แสดงรายชื่อไฟล์ที่อัปโหลดแล้ว -->
+                <div id="uploadedFilesContainer">
+                    <!-- รายชื่อไฟล์ -->
+                </div>
+                <br>
+                <br>
+                <!-- ปุ่ม submit -->
+                <input type="hidden" value="" name="submit" class="upload-btn-n" id="value">
+                <input value="Upload Files" name="submit" class="upload-btn-n" onclick="submitData()">
+
+            </div>
+        </form>
+    </div>
+
+    <!-- ส่วนสคริปต์ -->
+    <script>
+        var submitButton = document.getElementById('submitButton');
+        const reportForm = document.getElementById('reportForm');
+        // const formData = new FormData();
+        const FileData = []
+
+
+        document.getElementById('fileToUpload').addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            const reader = new FileReader();
+            reader.onload = function (event) {
+                const base64Data = event.target.result;
+                // เขียนค่า base64 ลงใน value ของ input
+
+                document.getElementById("value").value = base64Data;
+
+
+                // formData.append(file.name, base64Data);
+                FileData.push(base64Data);
+                // console.log([...formData.entries()])
+                console.log(FileData)
+            };
+
+            reader.readAsDataURL(file);
+        });
+
+        async function submitData() {
+
+            const csrfToken = document.getElementById('token').value;
+            console.log(csrfToken);
+            console.log(FileData)
+
+            try {
+                // const formDataObj = {};
+                // for (const [key, value] of formData.entries()) {
+                //     formDataObj[key] = value;
+                // }
+
+                const requestBody = {
+                    file: FileData,
+                    CityID: 123 // Your CityID value
+                };
+
+                fetch('/upload', {
+                    method: 'POST',
+                    body: JSON.stringify(requestBody),
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'CSRF-Token': csrfToken
+                    }
+                })
+                    .then(response => {
+
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        console.log('File uploaded successfully');
+                        // Redirect to /city
+
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+                window.location.href = "/city";
+
+
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        // try {
+        //         const response = await fetch('/upload', {
+        //             method: 'POST',
+        //             body: formData,
+        //             headers: {
+        //                 'CSRF-Token': csrfToken
+        //             }
+        //         });
+        //         if (!response.ok) {
+        //             throw new Error('Network response was not ok');
+        //         }
+        //         console.log('File uploaded successfully');
+        //     } catch (error) {
+        //         console.error('Error:', error);
+        //     }
+
+
+        const uploadContainer = document.getElementById('uploadContainer');
+        const uploadBtn = document.getElementById('uploadBtn');
+        const fileInput = document.getElementById('fileToUpload');
+        const fileNameSpan = document.getElementById('fileName');
+        const uploadedFilesContainer = document.getElementById('uploadedFilesContainer');
+
+        uploadContainer.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadContainer.classList.add('drag-over');
+        });
+
+        uploadContainer.addEventListener('dragleave', () => {
+            uploadContainer.classList.remove('drag-over');
+        });
+
+        uploadContainer.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadContainer.classList.remove('drag-over');
+            const droppedFiles = e.dataTransfer.files;
+            handleFiles(droppedFiles);
+        });
+
+        uploadBtn.addEventListener('click', () => {
+            fileInput.click();
+        });
+
+        fileInput.addEventListener('change', () => {
+            handleFiles(fileInput.files);
+        });
+
+        function handleFiles(files) {
+            if (files.length > 0) {
+                const fileName = files[0].name;
+                fileNameSpan.textContent = fileName;
+
+                // เพิ่มชื่อไฟล์ที่อัปโหลดแล้วลงใน container
+                const uploadedFileElement = document.createElement('div');
+                uploadedFileElement.classList.add('uploaded-file');
+
+                uploadedFileElement.innerHTML = `
+            <span>${fileName}</span>
+            <i class="fa fa-times" aria-hidden="true" onclick="removeUploadedFile(this)"></i>
+        `;
+
+                uploadedFilesContainer.appendChild(uploadedFileElement);
+            }
+        }
+
+        function removeUploadedFile(element) {
+            // หา index ของ element ที่ต้องการลบออกจาก uploadedFilesContainer
+            const uploadedFileElement = element.closest('.uploaded-file');
+            const index = Array.from(uploadedFilesContainer.children).indexOf(uploadedFileElement);
+
+            // ถ้าหาก index ไม่เท่ากับ -1 แสดงว่าเจอ element ที่ต้องการลบ
+            if (index !== -1) {
+                // ลบ element ออกจาก uploadedFilesContainer
+                uploadedFileElement.remove();
+
+                // ลบไฟล์ออกจาก FileData โดยใช้ index ที่เราเจอมาก่อนหน้านี้
+                FileData.splice(index, 1);
+            }
+        }
+
+
+        function confirmUpload() {
+            const userConfirmed = confirm("คุณต้องการอัปโหลดไฟล์ใช่หรือไม่?");
+            return userConfirmed;
+        }
+
+    </script>
+
+    <!-- ส่วน Footer -->
+    <%- include('../component/footer.ejs') %>
+
+</body>
+
+</html>

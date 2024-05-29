@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <title>
+        Admin - <%= pageTitle %>
+    </title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        html {
+            height: 100%;
+        }
+
+        body {
+            margin: 0px;
+            height: 100%;
+        }
+
+        .wrapper {
+            height: auto;
+            min-height: 100%;
+            overflow: hidden;
+
+        }
+
+        .side-menu {
+            min-width: 250px;
+            width: 250px;
+            float: left;
+            background: #04B2A1;
+            height: auto;
+            min-height: 100%;
+            margin-bottom: -5000px;
+            /* any large number will do */
+            padding-bottom: 5000px;
+        }
+
+        .topmenu {
+            height: 45px;
+            padding: 10px 0px 0px 0px;
+            background: #6772e5;
+            color: #e1e2fa;
+        }
+
+        .logo {
+            display: flex;
+            justify-content: center;
+            /* จัดตำแหน่งให้อยู่ตรงกลางตามแนวนอน */
+            align-items: center;
+            /* จัดตำแหน่งให้อยู่ตรงกลางตามแนวดิ่ง */
+            background: #584f42;
+            height: 100%;
+        }
+
+
+        .main-section {
+            height: 100%;
+        }
+
+        a {
+            text-decoration: none;
+            color: #e1e2fa;
+        }
+
+        .menu ul {
+            list-style-type: none;
+            margin-left: 0px;
+            padding-left: 10px;
+        }
+
+        .menu ul li a {
+            font-size: 12px;
+            font-weight: 800;
+            display: inline-block;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            width: 100%;
+            margin-left: -5px;
+            padding-left: 10px;
+        }
+
+        .menu ul li a:hover {
+            background: #dcb432;
+            border-left: solid 5px whitesmoke;
+            margin-left: -10px;
+            width: 100%;
+            color: whitesmoke;
+            box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .menu ul li ul {
+            padding-left: 0px;
+        }
+
+        #showmenu {
+            font-size: 18px;
+            display: inline-block;
+            padding-left: 15px;
+            padding-top: 5px;
+            padding-right: 15px;
+            float: left;
+            border-right: solid 1px #000;
+        }
+
+        .main-section {
+            background: #f6f9fc;
+            height: 100%;
+            margin-bottom: -5000px;
+            /* any large number will do */
+            padding-bottom: 5000px;
+            margin-left: 250px;
+        }
+
+        .search {
+            width: 340px;
+            float: left;
+            margin-top: 3px;
+            margin-left: 25px;
+            padding-left: 10px;
+            background: #5c66cd;
+            padding-top: 3px;
+            padding-bottom: 3px;
+            border-radius: 15px;
+            color: #8089e8;
+        }
+
+        input.src {
+            background: none;
+            border: none;
+            width: 300px;
+            font-family: 'Nunito', sans-serif;
+            color: #8089e8;
+            font-size: 13px;
+            font-weight: 600;
+
+        }
+
+        *:focus {
+            outline: none;
+        }
+
+        ::-webkit-input-placeholder {
+            /* Chrome/Opera/Safari */
+            font-family: 'Nunito', sans-serif;
+            color: #8089e8;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        ::-moz-placeholder {
+            /* Firefox 19+ */
+            font-family: 'Nunito', sans-serif;
+            color: #8089e8;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        :-ms-input-placeholder {
+            /* IE 10+ */
+            font-family: 'Nunito', sans-serif;
+            color: #8089e8;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        :-moz-placeholder {
+            /* Firefox 18- */
+            font-family: 'Nunito', sans-serif;
+            color: #8089e8;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .card {
+            margin: 25px;
+            padding: 15px;
+            width: 250px;
+            background: #fff;
+            float: left;
+            box-shadow: 0 6px 20px 0px #dce8f4;
+        }
+
+        .card-content {
+            color: #32325d;
+            font-weight: 600;
+            font-size: 18px;
+
+        }
+
+        .author {
+            color: #999999;
+            font-size: 36px;
+            margin-top: 20px;
+
+        }
+
+        .status-green {
+            width: 30px;
+            height: 8px;
+            border-radius: 10px;
+            background: #23d2ac;
+            margin-bottom: 15px;
+        }
+
+        .status-blue {
+            width: 30px;
+            height: 8px;
+            border-radius: 10px;
+            background: #33adff;
+            margin-bottom: 15px;
+        }
+
+        .status-red {
+            width: 30px;
+            height: 8px;
+            border-radius: 10px;
+            background: red;
+            margin-bottom: 15px;
+        }
+
+        .section-title {
+            margin-left: 25px;
+            margin-top: 10px;
+            font-size: 24px;
+            color: #3a3a63;
+        }
+    </style>
+</head>
+
+
+<body>
+    <%- include('include/ad-navbar.ejs') %>
+    
+        <div class="wrapper">
+            <div class="side-menu">
+                <div class="logo">
+                    <img src="/img/bg02.png" alt="Logo">
+                </div>
+                <div class="menu">
+                    <ul>
+                        <li><a href="#"><i class="fa fa-server" aria-hidden="true"></i><span class="text"> Projects
+                                </span></a>
+                            <ul class="dropdown">
+                                <li><a href="#"><i class="fa fa-bar-chart" aria-hidden="true"></i><span class="text">
+                                            text</span></a></li>
+                                <li><a href="#"><i class="fa fa-arrows-alt" aria-hidden="true"></i><span class="text">
+                                            text</span></a></li>
+                                <li><a href="#"><i class="fa fa-desktop" aria-hidden="true"></i><span class="text">
+                                            text</span></a></li>
+                                <li><a href="#"><i class="fa fa-calendar" aria-hidden="true"></i><span class="text">
+                                            text</span></a></li>
+                                <li><a href="#"><i class="fa fa-mobile" aria-hidden="true"></i><span class="text">
+                                            text</span></a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="min-w-screen min-h-screen bg-gray-200 flex items-center justify-center px-5 py-5">
+                <div class="w-full max-w-3xl">
+                    <div class="-mx-2 md:flex">
+                        <div class="w-full md:w-1/3 px-2">
+                            <div class="rounded-lg shadow-sm mb-4">
+                                <div class="rounded-lg bg-white shadow-lg md:shadow-xl relative overflow-hidden">
+                                    <div class="px-3 pt-8 pb-10 text-center relative z-10">
+                                        <h4 class="text-sm uppercase text-gray-500 leading-tight">test</h4>
+                                        <h3 class="text-3xl text-gray-700 font-semibold leading-tight my-3">3,682</h3>
+                                        <p class="text-xs text-green-500 leading-tight">▲ 57.1%</p>
+                                    </div>
+                                    <div class="absolute bottom-0 inset-x-0">
+                                        <canvas id="chart1" height="70"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-full md:w-1/3 px-2">
+                            <div class="rounded-lg shadow-sm mb-4">
+                                <div class="rounded-lg bg-white shadow-lg md:shadow-xl relative overflow-hidden">
+                                    <div class="px-3 pt-8 pb-10 text-center relative z-10">
+                                        <h4 class="text-sm uppercase text-gray-500 leading-tight">test</h4>
+                                        <h3 class="text-3xl text-gray-700 font-semibold leading-tight my-3">11,427</h3>
+                                        <p class="text-xs text-red-500 leading-tight">▼ 42.8%</p>
+                                    </div>
+                                    <div class="absolute bottom-0 inset-x-0">
+                                        <canvas id="chart2" height="70"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-full md:w-1/3 px-2">
+                            <div class="rounded-lg shadow-sm mb-4">
+                                <div class="rounded-lg bg-white shadow-lg md:shadow-xl relative overflow-hidden">
+                                    <div class="px-3 pt-8 pb-10 text-center relative z-10">
+                                        <h4 class="text-sm uppercase text-gray-500 leading-tight">test</h4>
+                                        <h3 class="text-3xl text-gray-700 font-semibold leading-tight my-3">8,028</h3>
+                                        <p class="text-xs text-green-500 leading-tight">▲ 8.2%</p>
+                                    </div>
+                                    <div class="absolute bottom-0 inset-x-0">
+                                        <canvas id="chart3" height="70"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-full md:w-1/3 px-2">
+                            <div class="rounded-lg shadow-sm mb-4">
+                                <div class="rounded-lg bg-white shadow-lg md:shadow-xl relative overflow-hidden">
+                                    <div class="px-3 pt-8 pb-10 text-center relative z-10">
+                                        <h4 class="text-sm uppercase text-gray-500 leading-tight">test</h4>
+                                        <h3 class="text-3xl text-gray-700 font-semibold leading-tight my-3">8,028</h3>
+                                        <p class="text-xs text-green-500 leading-tight">▲ 8.2%</p>
+                                    </div>
+                                    <div class="absolute bottom-0 inset-x-0">
+                                        <canvas id="chart3" height="70"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <%- include('include/ad-footer.ejs') %>
+
+
+</body>
+<script>
+    // เรียกใช้ข้อมูลจาก statusCounts.status ที่ส่งมาจาก backend
+    const statusCounts = '<%= JSON.stringify(statusCounts.status) %>';
+
+    // เข้าถึง canvas element ใน HTML
+    const ctx = document.getElementById('myPieChart').getContext('2d');
+
+    // สร้าง Pie Chart
+    const myPieChart = new Chart(ctx, {
+      type: 'pie',
+      data: {
+        // ระบุข้อมูลสำหรับแต่ละส่วนของ Pie Chart
+        labels: Object.keys(statusCounts),
+        datasets: [{
+          label: 'Status Distribution',
+          data: Object.values(statusCounts),
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.5)',
+            'rgba(54, 162, 235, 0.5)',
+            'rgba(255, 206, 86, 0.5)'
+            // เพิ่มสีอื่น ๆ ตามความต้องการ
+          ],
+          borderColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)'
+            // เพิ่มสีอื่น ๆ ตามความต้องการ
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        // ตั้งค่าต่าง ๆ สำหรับ Pie Chart ตามความต้องการ
+        // เช่น เพิ่ม title, legend, tooltips, etc.
+      }
+    });
+  </script>
+
+</html>

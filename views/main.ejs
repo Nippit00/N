@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('include/head.ejs') %>
+    <title>
+            <%= pageTitle %>
+    </title>
+   
+    <style>
+        .title-container {
+            text-align: center;
+            padding: 20px;
+            position: relative;
+            top: -250px;
+            margin-bottom: 100px;
+        }
+
+        .titles-container {
+            text-align: center;
+            padding: 20px;
+            position: relative;
+            top: 0px;
+        }
+
+        .banner img {
+            width: 100%;
+        }
+
+        .content-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 30px;
+            margin-top: -300px;
+            margin-bottom: 100px;
+        }
+
+        .map-container {
+            width: 10%;
+            text-align: center;
+        }
+
+        .chart-container {
+            width: 20%;
+            /* ปรับความกว้างของ chart-container ตามความต้องการ */
+        }
+
+        .chart-container canvas {
+            width: 100%;
+            height: auto;
+            margin-bottom: 100px;
+            /* เพิ่มระยะห่างด้านล่างของ canvas */
+        }
+
+        .table-container {
+            width: 80%;
+            margin: 0 auto;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+            border-radius: 20px;
+            /* เพิ่ม overflow: hidden เพื่อป้องกัน input ทับข้อมูลตาราง */
+            margin-bottom: 50px;
+            background-color: #584f42;
+        }
+
+        /* เพิ่มสไตล์ให้กับ input field ค้นหา */
+        #searchInput {
+            width: 250px;
+            padding: 8px;
+            margin-bottom: 5px;
+            margin-top: 5px;
+            border: thick double #00B2A9;
+            border-radius: 50px;
+            float: right;
+            margin-right: 10px;
+            /* ปรับ margin-right ตามที่ต้องการ */
+        }
+
+
+        /* เพิ่มสไตล์ให้กับตาราง */
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            border: none;
+            border-radius: 0px;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border: none;
+        }
+
+        th {
+            background-color: #FFF8D6;
+        }
+
+        .citie-text {
+            color: #C2AF76;
+            /* รหัสสีของเมืองที่คุณต้องการ */
+        }
+
+        #table-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-right: 10px;
+            margin-left: 10px;
+            
+        }
+
+        #table-navigation button {
+            width: 100px;
+            padding: 8px;
+            border: 3px solid #C2AF76;
+            border-radius: 50px;
+            background-color: #FFF8D6;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        #table-navigation button:hover {
+            background-color: #C2AF76;
+            color: white;
+            border: 3px solid #FFF8D6;
+        }
+        .table tr[style*="display: none"] {
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+
+<body class="dark-mode">
+    <%- include('component/navbar.ejs') %>
+
+    <div class="banner">
+        <img src="/img/bbj.png" alt="Banner Image">
+    </div>
+
+    <div class="title-container">
+        <h1><span class="citie-text">CITY</span> PROFILE DASHBOARD</h1>
+    </div>
+
+    <div class="content-container">
+
+    <iframe title="web" width="1024" height="612" src="https://app.powerbi.com/view?r=eyJrIjoiZjk0NTY5ZDgtODgwOC00Yjc1LTg0MDUtNjllZDM3M2Y0NmRmIiwidCI6IjRhNGY3YjUyLTBlMDUtNDQxNS04NDU0LTc2ODliMDBhODdiMiIsImMiOjEwfQ%3D%3D&pageName=ReportSection" frameborder="0" allowFullScreen="true"></iframe>
+
+    </div>
+
+    <div class="titles-container">
+        <h1><span class="citie-text">CITY</span> OVERALL</h1>
+    </div>
+
+    <div class="table-container">
+        <h2></h2>
+        <input type="text" id="searchInput" placeholder="ค้นหา..." onkeyup="searchTable()">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ลำดับ</th>
+                    <th>แผนพัฒนาเมืองอัจฉริยะ</th>
+                    <th>จังหวัด</th>
+                    <th>ประกาศเมืองอัจฉริยะ</th>
+                    <th>อายุการถือครองตราสัญลักษณ์</th>
+                    <th>%ความคืบหน้า</th>
+                    <th>%ความสำเร็จ</th>
+                </tr>
+                <tbody>
+    <% fechdata.forEach((data, index) => { %>
+        
+        <tr>
+            <td><%= index + 1 %></td>
+            <td><a href="#"><%= data.cityName %></a></td>
+            <td><%= data.province %></td>
+            <td>
+                <% 
+                    const date = new Date(data.date);
+                    const thaiMonths = ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 
+                                        'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'];
+                    const formattedDate = `${date.getDate().toString().padStart(2, '0')} ${thaiMonths[date.getMonth()]} ${date.getFullYear().toString().substr(-2)}`;
+                %>
+                <%= formattedDate %>
+            </td>
+            <td>1 ปี 2 เดือน 3 วัน</td>
+            <td>50%</td>
+            <td>50%</td>
+        </tr>
+    <% }); %>
+</tbody>
+
+                
+            </thead>
+        </table>
+        <div id="table-navigation">
+            <button onclick="previousPage()">Back</button>
+            <button onclick="nextPage()">Next</button>
+        </div>        
+    </div>
+
+    <%- include('component/footer.ejs') %>
+
+    <script>
+        var currentPage = 0; // เพิ่มตัวแปรสำหรับเก็บหน้าปัจจุบัน
+var rowsPerPage = 10; // จำนวนรายการต่อหน้า
+
+function nextPage() {
+    var table = document.querySelector(".table");
+    var tr = table.getElementsByTagName("tr");
+    var totalPages = Math.ceil(tr.length / rowsPerPage);
+
+    if (currentPage < totalPages - 1) {
+        currentPage++;
+        updateTableDisplay();
+    }
+}
+
+function previousPage() {
+    if (currentPage > 0) {
+        currentPage--;
+        updateTableDisplay();
+    }
+}
+
+function updateTableDisplay() {
+    var table = document.querySelector(".table");
+    var tr = table.getElementsByTagName("tr");
+
+    for (var i = 0; i < tr.length; i++) {
+        if (i >= currentPage * rowsPerPage && i < (currentPage + 1) * rowsPerPage) {
+            tr[i].style.display = "";
+        } else {
+            tr[i].style.display = "none";
+        }
+    }
+}
+document.addEventListener('DOMContentLoaded', function () {
+    updateTableDisplay();
+});
+
+
+        document.getElementById('map').addEventListener('click', function(event) {
+            // ตำแหน่งที่คลิกบนรูปภาพ
+            var x = event.offsetX / this.width;
+            var y = event.offsetY / this.height;
+
+            // ตรวจสอบตำแหน่งและทำตามต้องการ
+            if (x >= 0.2 && x <= 0.4 && y >= 0.4 && y <= 0.6) {
+                alert('คุณคลิกที่กรุงเทพมหานคร');
+                // ทำตามต้องการสำหรับกรุงเทพมหานคร
+            } else if (x >= 0.5 && x <= 0.7 && y >= 0.6 && y <= 0.8) {
+                alert('คุณคลิกที่จังหวัดอื่นๆ');
+                // ทำตามต้องการสำหรับจังหวัดอื่นๆ
+            } else {
+                alert('คุณคลิกที่ตำแหน่งที่ไม่ได้กำหนด');
+            }
+        });
+
+        // ตัวแปรเก็บข้อมูลเวลาที่กำหนด
+        var startDate = new Date('2023-08-13'); // วันที่เริ่มต้น
+
+        // ฟังก์ชั่นสำหรับคำนวณเวลาที่ผ่านไป
+        function calculateTimeElapsed() {
+            var currentDate = new Date(); // วันที่ปัจจุบัน
+            var timeDiff = currentDate - startDate; // คำนวณวันที่ผ่านไปในมิลลิวินาที
+
+            // แปลงเวลาที่ผ่านไปให้เป็นปี, เดือน, วัน
+            var years = Math.floor(timeDiff / (365.25 * 24 * 60 * 60 * 1000));
+            var months = Math.floor((timeDiff % (365.25 * 24 * 60 * 60 * 1000)) / (30.44 * 24 * 60 * 60 * 1000));
+            var days = Math.floor((timeDiff % (30.44 * 24 * 60 * 60 * 1000)) / (24 * 60 * 60 * 1000));
+
+            // แสดงผลลัพธ์ในรูปแบบที่ต้องการ
+            document.getElementById('timeElapsed').innerText = years + ' ปี ' + months + ' เดือน ' + days + ' วัน';
+        }
+
+        // เรียกใช้ฟังก์ชั่น
+        calculateTimeElapsed();
+
+        // สร้าง interval เพื่อปรับปรุงเวลาทุกๆ 1 นาที
+        setInterval(calculateTimeElapsed, 60000); // 60000 มิลลิวินาที = 1 นาที
+
+        // ฟังก์ชันค้นหา
+        function searchTable() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("searchInput");
+            filter = input.value.toUpperCase();
+            table = document.querySelector(".table");
+            tr = table.getElementsByTagName("tr");
+        
+            if (filter === '') {
+                for (i = 0; i < tr.length; i++) {
+                    if (i < 10) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+                return;
+            }
+        
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[1]; 
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = ""; 
+                    } else {
+                        tr[i].style.display = "none"; 
+                    }
+                }
+            }
+        }
+
+        
+    </script>
+
+</body>
+
+</html>

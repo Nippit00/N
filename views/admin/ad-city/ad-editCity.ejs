@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Data</title>
+    <!-- Include Tailwind CSS -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      /* Set the size of the map */
+      #map {
+        height: 400px;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <script>
+      function initMap() {
+          const map = new google.maps.Map(document.getElementById("map"), {
+              center: { lat: <%=cityData.LAT %>, lng: <%=cityData.LNG %> },
+              zoom: 7,
+          });
+          const marker = new google.maps.Marker({
+              map,
+              draggable: true,
+              animation: google.maps.Animation.DROP,
+              position: { lat: <%=cityData.LAT %>, lng: <%=cityData.LNG %> }
+          });
+
+          google.maps.event.addListener(marker, "dragend", function(event) {
+              document.getElementById("latitude").value = this.getPosition().lat();
+              document.getElementById("longitude").value = this.getPosition().lng();
+          });
+      }
+    </script>
+  <body class="bg-gray-100">
+    <%- include('../include/ad-navbar.ejs') %>
+    <div class="container mx-auto p-4">
+      <h1 class="text-3xl font-bold mb-4">Edit Data</h1>
+      <form
+        action="/admin/city/update/<%=cityData.cityID%>"
+        method="POST"
+        class="space-y-4"
+      >
+        <!-- <div class="flex flex-col">
+                <label for="cityID" class="font-bold">City ID:</label>
+                <input type="text" id="cityID" name="cityID" value="<%= cityData.cityID %>" class="border border-gray-300 px-4 py-2 rounded-md">
+            </div> -->
+        <div class="flex flex-col">
+          <label for="province" class="font-bold">Province:</label>
+          <input
+            type="text"
+            id="province"
+            name="province"
+            value="<%= cityData.province %>"
+            class="border border-gray-300 px-4 py-2 rounded-md"
+          />
+        </div>
+        <div class="flex flex-col">
+          <label for="date" class="font-bold">Date:</label>
+          <input
+            type="date"
+            id="date"
+            name="date"
+            value="<%= cityData.date.toISOString().split('T')[0] %>"
+            class="border border-gray-300 px-4 py-2 rounded-md"
+          />
+        </div>
+        <div class="flex flex-col">
+          <label for="developer" class="font-bold">Developer:</label>
+          <input
+            type="text"
+            id="developer"
+            name="developer"
+            value="<%= cityData.developer %>"
+            class="border border-gray-300 px-4 py-2 rounded-md"
+          />
+        </div>
+        <div class="flex flex-col">
+          <label for="executive" class="font-bold">Executive:</label>
+          <input
+            type="text"
+            id="executive"
+            name="executive"
+            value="<%= cityData.executive %>"
+            class="border border-gray-300 px-4 py-2 rounded-md"
+          />
+        </div>
+        <div class="flex flex-col">
+          <label for="govInvestment" class="font-bold"
+            >Government Investment:</label
+          >
+          <input
+            type="number"
+            id="govInvestment"
+            name="government_investment"
+            value="<%= cityData.government_investment %>"
+            class="border border-gray-300 px-4 py-2 rounded-md"
+          />
+        </div>
+        <div class="flex flex-col">
+          <label for="privateInvestment" class="font-bold"
+            >Private Investment:</label
+          >
+          <input
+            type="number"
+            id="privateInvestment"
+            name="private_investment"
+            value="<%= cityData.private_investment %>"
+            class="border border-gray-300 px-4 py-2 rounded-md"
+          />
+        </div>
+        <input type="hidden" name="_csrf" value="<%=csrfToken%>" id="token" />
+        <div id="map"></div>
+        <br />
+        <label for="latitude">Latitude:</label>
+        <input
+          type="text"
+          id="latitude"
+          name="LAT"
+          value="<%=cityData.LAT %>"
+        />
+        <br />
+        <label for="longitude">Longitude:</label>
+        <input
+          type="text"
+          id="longitude"
+          name="LNG"
+          value="<%=cityData.LNG %>"
+        />
+        <!-- Replace YOUR_API_KEY with your actual Google Maps API key -->
+        <script
+          async
+          defer
+          src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB_QQj5dFvATApuqEbGEt1i__KatMvU80o&callback=initMap&libraries=places"
+        ></script>
+        <button
+          type="submit"
+          class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors"
+        >
+          Update Data
+        </button>
+      </form>
+    </div>
+    <%- include('../include/ad-footer.ejs') %>
+    
+    <script>
+      const urlParams = new URLSearchParams(window.location.search);
+      const successParam = urlParams.get("success");
+      if ("<%=success%>" === "true") {
+        swal({
+          title: "Success!",
+          text: "Data saved successfully",
+          icon: "success",
+        }).then(function () {
+          window.location.href = "/admin/city";
+        });
+      }
+    </script>
+  </body>
+</html>

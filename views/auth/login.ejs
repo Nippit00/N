@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <script>
+    // Redirect away from the login page if user is already logged in
+    if (sessionStorage.getItem('isLoggedIn')) {
+        window.location.href = '/city'; // Redirect to city page
+    }
+</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/styles.css">
+  <title>Login</title>
+  <link rel="icon" type="image/x-icon" href="/img/favi.png">
+  <style>
+    body {
+      background-image: url("/img/ssss.png");
+      background-size: cover;
+      background-position: 55% calc(50% - 250px);
+      background-repeat: no-repeat;
+      /* เพิ่ม animation ที่เคลื่อนไหวไปทางขวา */
+      animation: moveRight 5s linear infinite;
+    }
+
+    @keyframes moveRight {
+      0% {
+        background-position: 0% calc(50% - 260px);
+      }
+
+      100% {
+        background-position: 100% calc(50% - 260px);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <%- include('../component/navbar.ejs') %>
+
+
+  <div class="container">
+    <div class="left-container">
+      <img src="/img/bg02.png" alt="รูปภาพ" class="image">
+      <div class="form-container">
+        <div class="title">
+          <h4>ติดตามความคืบหน้า</h4>
+          <h6 style="color:blue">ติดตามความคืบหน้าของเมืองที่ได้รับตราสัญลักษณ์</h6>
+        </div>
+        <form action="/login" method="post">
+          <div class="form-group">
+            <label class="label" for="username">Username</label>
+            <input type="username" id="username" name="username" placeholder="username" style="border: 2px solid #C2AF76; border-radius: 50px;" required>
+          </div>
+          <div class="form-group">
+            <label class="label" for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="password" style="border: 2px solid #C2AF76; border-radius: 50px;" required>
+          </div>
+          <br>
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <button type="submit" class="button">SIGN IN</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="right-container">
+      <div class="image-frame">
+        <img src="/img/bg-01.png" alt="รูปภาพ" class="image-right">
+      </div>
+    </div>
+  </div>
+
+
+  <%- include('../component/footer.ejs') %>
+</body>
+
+</html>

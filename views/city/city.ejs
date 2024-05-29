@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <script>
+        // Redirect away from the login page if user is already logged in
+        if (sessionStorage.getItem('isLoggedIn')) {
+            window.location.href = '/city'; // Redirect to city page
+        }
+        history.pushState(null, null, location.href);
+        window.onpopstate = function (event) {
+            history.go(1);
+        };
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <!-- Add this in the head section -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <!-- Add this before closing </body> tag -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+    <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.7.0/css/all.css'
+        integrity='sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ' crossorigin='anonymous'>
+    <title>
+        <%= pageTitle %>
+    </title>
+    <link rel="icon" type="image/x-icon" href="../tracktag/img/favi.png">
+    <style>
+        .title-container {
+            text-align: center;
+            padding: 20px;
+            position: relative;
+            top: -300px;
+        }
+
+        .citie-text {
+            color: #C2AF76;
+            /* รหัสสีของเมืองที่คุณต้องการ */
+        }
+
+        .cities-text {
+            color: #04B2A1;
+            /* รหัสสีของเมืองที่คุณต้องการ */
+        }
+
+        .content-container {
+            width: 80%;
+            /* กำหนดความกว้างของ content-container */
+            margin: 0 auto;
+            /* ทำให้ content-container อยู่กึ่งกลางตามแนวนอน */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            /* ทำให้ text และรูปภาพอยู่กึ่งกลางตามแนวตั้ง */
+        }
+
+        .text-container,
+        .map-container {
+            flex: 1;
+        }
+
+        .text-container {
+            padding: 20px;
+            position: relative;
+            top: -150px;
+            /* ปรับค่า top ตามที่คุณต้องการ */
+
+        }
+
+
+       .citie-text {
+           color: #C2AF76;
+           /* รหัสสีของเมืองที่คุณต้องการ */
+       }
+
+        .map-container {
+            text-align: left;
+            position: relative;
+            top: -120px;
+            /* ปรับค่า top ตามที่ต้องการ */
+            margin-bottom: 200px;
+            /* เพิ่มขอบเขตด้านล่างเพื่อไม่ให้กระทบกับ footer */
+        }
+
+       .cities-text {
+           color: #04B2A1;
+           /* รหัสสีของเมืองที่คุณต้องการ */
+       }
+
+
+        .custom-rectangle {
+            width: 130%;
+            /* ปรับขนาดตามที่คุณต้องการ */
+            height: 170px;
+            /* ปรับขนาดตามที่คุณต้องการ */
+            background-color: white;
+            /* สีพื้นหลังของกรอบ */
+            margin-top: 30px;
+            /* ปรับตำแหน่งตามที่คุณต้องการ */
+            border: 3px solid;
+            border-radius: 15px 50px 20px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            overflow: hidden;
+            box-shadow: 5px 0px 5px rgba(0, 0, 0, 0.5);
+        }
+
+
+       .text-container,
+       .map-container {
+           flex: 1;
+       }
+
+
+       .text-container {
+           padding: 20px;
+           position: relative;
+           top: -150px;
+           /* ปรับค่า top ตามที่คุณต้องการ */
+
+
+       }
+
+
+
+
+       .menu-text {
+           color: black;
+       }
+
+
+       .map-container {
+           text-align: right;
+           position: relative;
+           top: -120px; /* ปรับค่า top ตามที่ต้องการ */
+           margin-bottom: 200px; /* เพิ่มขอบเขตด้านล่างเพื่อไม่ให้กระทบกับ footer */
+       }
+
+
+       .text-container b.menu-text {
+           margin-bottom: 50px;
+           /* ปรับค่า margin-bottom ตามที่ต้องการ */
+       }
+
+
+       .text-container b.menu-text {
+           margin-bottom: 50px;
+       }
+
+
+       .image-container {
+           text-align: center;
+       }
+
+
+       .custom-rectangle img {
+           max-width: 120%;
+           height: auto;
+           border-radius: 10px;
+           /* ปรับขอบรูป */
+       }
+
+
+       .image-container h5 {
+           margin-top: 10px;
+           font-size: 13px;
+           /* ปรับขนาดและรูปแบบตัวหนังสือตามที่คุณต้องการ */
+       }
+
+
+       h6 {
+           margin-left: 190px;
+           /* ปรับค่าตามที่คุณต้องการ */
+           position: relative;
+           top: 0px;
+           /* ปรับค่าตามที่คุณต้องการ */
+       }
+
+
+       .link-u {
+           margin-left: 190px;
+           /* ปรับค่าตามที่คุณต้องการ */
+           position: relative;
+           top: 0px;
+           /* ปรับค่าตามที่คุณต้องการ */
+       }
+
+
+       .my-swal-container {
+           border: 2px solid #6C757D;
+           background-color: #F8F9FA;
+           border-radius: 10px;
+           color: #495057;
+           font-family: 'Arial', sans-serif;
+       }
+
+
+       .my-swal-popup {
+           background-color: #F8F9FA;
+           border: none;
+           box-shadow: none;
+       }
+
+
+       .my-swal-title {
+           color: #04B2A1;
+       }
+
+
+       .my-swal-text {
+           color: #495057;
+       }
+
+
+       .my-swal-confirm-button {
+           background-color: #28A745;
+           color: #FFFFFF;
+           border-radius: 5px;
+       }
+   </style>
+</head>
+
+
+<body>
+
+
+   <%- include('../component/navbar.ejs') %>
+
+
+       <div class="banner">
+           <img src="/img/bbj.png" alt="Banner Image">
+       </div>
+
+
+       <div class="title-container text-3xl">
+           <h1>แผน <span class="citie-text">Smart City </span></h1>
+       </div>
+
+
+       <%- include('../component/menu.ejs') %>
+
+
+           <div class="content-container">
+               <div class="text-container">
+                   <h4><span class="cities-text">
+                           <%= cityInfo.cityName %>
+                       </span></h4>
+                   <br>
+                   <b class="menu-text">รายชื่อข้อเสนอแผนพัฒนาเมืองอัจฉริยะ :</b> <b style="color: #04B2A1;">
+                       <%= cityInfo.cityName %>
+                           <br>
+                           <br>
+                           <b class="menu-text">จังหวัด :</b> <b style="color: #04B2A1;">
+                               <%= cityInfo.province %>
+                           </b>
+                           <br>
+                           <br>
+                           <b class="menu-text">ผู้พัฒนาเมืองอัจฉริยะ :</b> <b style="color: #04B2A1;">
+                               <%= cityInfo.developer %>
+                           </b>
+                           <br>
+                           <br>
+                           <b class="menu-text">ประกาศเมืองอัจฉริยะ :</b> <b style="color: #04B2A1;">
+                               <%const date=new Date(cityInfo.date); const
+                                   formattedDate=`${date.getDate().toString().padStart(2, '0' )}/${(date.getMonth() +
+                                   1).toString().padStart(2, '0' )}/${date.getFullYear().toString().substr(-2)}`;%>
+                                   <%= formattedDate %>
+                           </b>
+                           <br>
+                           <br>
+                           <b class="menu-text">ผู้บริหารของหน่วยงาน :</b> <b style="color: #04B2A1;">
+                               <%= cityInfo.executive %>
+                           </b>
+                           <br>
+                           <br>
+                           <b class="menu-text">มูลค่าการลงทุน :</b> <b style="color: #04B2A1;">
+                               <%= (cityInfo.government_investment+cityInfo.private_investment).toLocaleString() %> บาท
+                           </b>
+                           <br>
+                           <br>
+                           <b class="menu-text">มูลค่าการลงทุนภาครัฐ :</b> <b style="color: #04B2A1;">
+                               <%= cityInfo.government_investment.toLocaleString() %> บาท
+                           </b>
+                           <br>
+                           <br>
+                           <b class="menu-text">มูลค่าการลงทุนภาคเอกชน :</b> <b style="color: #04B2A1;">
+                               <%= cityInfo.private_investment.toLocaleString() %> บาท
+                           </b>
+                           <br>
+                           <br>
+                           <b class="menu-text">7 smart :</b>
+                           <div class="custom-rectangle">
+                               <div class="col-md-1">
+                                   <div class="image-container">
+                                       <h5>Smart Environment</h5>
+                                       <img src="/img/s1.png" alt="Image 1">
+                                       <h5>
+                                           <%= smartKeyCounts.ENV %> โครงการ
+                                       </h5>
+                                   </div>
+                               </div>
+                               <div class="col-md-1">
+                                   <div class="image-container">
+                                       <h5>Smart Energy</h5>
+                                       <img src="/img/se.png" alt="Image 2">
+                                       <h5>
+                                           <%= smartKeyCounts.ENE%> โครงการ
+                                       </h5>
+                                   </div>
+                               </div>
+                               <div class="col-md-1">
+                                   <div class="image-container">
+                                       <h5>Smart Economy</h5>
+                                       <img src="/img/sec.png" alt="Image 3">
+                                       <h5>
+                                           <%= smartKeyCounts.ECO%> โครงการ
+                                       </h5>
+                                   </div>
+                               </div>
+                               <div class="col-md-1">
+                                   <div class="image-container">
+                                       <h5>Smart Mobility</h5>
+                                       <img src="/img/sm.png" alt="Image 4">
+                                       <h5>
+                                           <%= smartKeyCounts.MOB%> โครงการ
+                                       </h5>
+                                   </div>
+                               </div>
+                               <div class="col-md-1">
+                                   <div class="image-container">
+                                       <h5>Smart Governance</h5>
+                                       <img src="/img/sco.png" alt="Image 5">
+                                       <h5>
+                                           <%= smartKeyCounts.GOV%> โครงการ
+                                       </h5>
+                                   </div>
+                               </div>
+                               <div class="col-md-1">
+                                   <div class="image-container">
+                                       <h5>Smart People</h5>
+                                       <img src="/img/sp.png" alt="Image 6">
+                                       <h5>
+                                           <%= smartKeyCounts.PEO%> โครงการ
+                                       </h5>
+                                   </div>
+                               </div>
+                               <div class="col-md-1">
+                                   <div class="image-container">
+                                       <h5>Smart Living</h5>
+                                       <img src="/img/sl.png" alt="Image 7">
+                                       <h5>
+                                           <%= smartKeyCounts.LIV%> โครงการ
+                                       </h5>
+                                   </div>
+                               </div>
+                           </div>
+               </div>
+               <div class="map-container">
+                   <!-- <iframe width="600" height="450" frameborder="0" style="border:0"
+                       src="https://www.google.com/maps/embed/v1/place?key=AIzaSyB_QQj5dFvATApuqEbGEt1i__KatMvU80o&q=<%=cityInfo.LAT%>,<%=cityInfo.LNG%>&zoom=5"
+                       allowfullscreen>
+                   </iframe> -->
+        <img src="/cityPic/<%= cityInfo.cityID %>.png">
+                   
+
+
+
+
+               </div>
+           </div>
+           <h6 class="ml-48 relative top-[-150px]"><span class="text-blue-500">Download</span>
+               เอกสารรายละเอียดของแผนเมือง</h6>
+               <% datafile.forEach(data => {
+                if (data.fileID === "F1") { %>
+                    <a style="margin-left: 190px;" href="<%= data.link %>" target="_blank" class="ml-48 relative top-[-100px]">1.ข้อสรุปผู้บริหาร</a> <br>
+                <% } else if (data.fileID === "F2") { %>
+                    <a style="margin-left: 190px;" href="<%= data.link %>" target="_blank" class="ml-48 relative top-[-100px]">2.ข้อเสนอแผนเมืองอัจฉริยะที่ยื่นเสนอ</a> <br>
+                <% } else if (data.fileID === "F3") { %>
+                    <a style="margin-left: 190px;" href="<%= data.link %>" target="_blank" class="ml-48 relative top-[-100px]">3.ประกาศจากคณะกรรมการชาติในการได้รับตราสัญลักษณ์เมืองอัจฉริยะ</a> <br>
+                <% } else { %>
+                    <a style="margin-left: 190px;" href="<%= data.link %>" target="_blank" class="ml-48 relative top-[-100px]">4.อื่นๆ</a>
+                <% }
+            }) %>
+            
+              
+           <%- include('../component/footer.ejs') %>
+               <script>
+                   document.addEventListener("DOMContentLoaded", function () {
+                        let targetDate = new Date(2027, 11, 2); // เวลาที่ต้องการคำนวณถึง
+                        let currentDate = new Date(); // เวลาปัจจุบัน
+                       let timeDiff = Math.abs(targetDate.getTime() - currentDate.getTime());
+                        let remainingDays = Math.ceil(timeDiff / (1000 * 3600 * 24)); // หาจำนวนวันที่เหลือ
+
+                        let remainingYears = Math.floor(remainingDays / 365.25); // หาจำนวนปีที่เหลือ
+                        let remainingDaysInYear = remainingDays % 365.25; // หาจำนวนวันที่เหลือในปี
+
+                        let remainingMonths = Math.floor(remainingDaysInYear / 30); // หาจำนวนเดือนที่เหลือในปี
+                        let remainingDaysInMonth = Math.floor(remainingDaysInYear % 30); // หาจำนวนวันที่เหลือในเดือน
+
+                        
+                       let currentDay = currentDate.getDate();
+                       let currentMonth = currentDate.getMonth() + 1;
+                       let currentYear = currentDate.getFullYear();
+                       let event = false
+
+
+                       let form1StartDay = 23;
+                       let form1EndDay = 30;
+                       let form1StartMonth = 5;
+                       let form1EndMonth = 5;
+                       let form1Year = 2025;                         
+
+
+                       let form2StartDay = 11;
+                       let form2EndDay = 15;
+                       let form2StartMonth = 9;
+                       let form2EndMonth = 9;
+                       let form2Year = 2026;
+
+
+                       let reportStartDay = 2;
+                       let reportEndDay = 5;
+                       let reportStartMonth = 12;
+                       let reportEndMonth = 12;
+                       let reportYear = 2027;
+
+
+                       let message = '';
+
+
+                       if (currentYear === form1Year && currentMonth === form1StartMonth && currentDay >= form1StartDay && currentDay <= form1EndDay) {
+                           message = '<br><span class="highlight">กรอกแบบฟอร์มครั้งที่1 ช่วงเวลา 3-5 พ.ค. 2024</span><br><br><br>';
+                           event = true;
+                       } else {
+                           message = '<br><span>กรอกแบบฟอร์มครั้งที่1 ช่วงเวลา 3-5 พ.ค. 2024</span><br><br><br>';
+                       }
+
+
+                           if (currentYear === form2Year && currentMonth === form2StartMonth && currentDay >= form2StartDay && currentDay <= form2EndDay) {
+                           message += '<br><span class="highlight">กรอกแบบฟอร์มครั้งที่2 ช่วงเวลา 11-15 ก.ย. 2026</span><br><br><br>';
+                           event = true;
+                           } else {
+                           message += '<br><span>กรอกแบบฟอร์มครั้งที่2 ช่วงเวลา 11-15 ก.ย. 2026</span><br><br><br>';
+                           }
+
+
+                           if (
+                           (currentYear === reportYear && currentMonth === reportStartMonth && currentDay >= reportStartDay && currentDay <= reportEndDay) ||
+                           (currentYear === reportYear && currentMonth === reportEndMonth && currentDay <= reportEndDay)
+                           ) {
+                           message += '<br><span class="highlight">คุณต้องอัพโหลดไฟล์รายงานครบ ช่วงเวลา 2-5 ธ.ค. 2027</span><br><br>';
+                           event = true;
+                           }else if (event === true) {
+                            message += '<br><span>คุณต้องอัพโหลดไฟล์รายงานครบ 2ปี ในอีก ';
+                            if (remainingYears > 0) {
+                              message += remainingYears + ' ปี ';
+                            }
+                            if (remainingMonths > 0) {
+                              message += remainingMonths + ' เดือน ';
+                            }
+                            message += remainingDaysInMonth + ' วัน</span><br><br>';
+                          } else {
+                            message += '<br><span class="highlight">คุณต้องอัพโหลดไฟล์รายงานครบ 2ปี ในอีก ';
+                            if (remainingYears > 0) {
+                              message += remainingYears + ' ปี ';
+                            }
+                            if (remainingMonths > 0) {
+                              message += remainingMonths + ' เดือน ';
+                            }
+                            message += remainingDaysInMonth + ' วัน</span><br><br>';
+                          }
+
+
+                       Swal.fire({
+                           title: 'ช่วงเวลากรอกฟอร์ม / อัพโหลดไฟล์',
+                           html: '<style>.highlight { color: red; }</style>' +
+                             message,
+                           imageUrl: "/img/favi.png",
+                           imageWidth: 100,
+                           imageHeight: 100,
+                           imageAlt: "Custom image",
+                           confirmButtonText: 'OK',
+                           customClass: {
+                             container: 'bg-[#F8F9FA] border-[#6C757D] border-2 rounded-md text-[#495057] font-Arial',
+                             popup: 'bg-[#F8F9FA] border-none shadow-none',
+                             title: 'text-[#04B2A1]',
+                             text: 'text-[#495057]',
+                             confirmButton: 'bg-green-600 text-white rounded-md'
+                           }
+                         });
+                   });
+
+
+               </script>
+</body>
+
+
+</html>
+
+
+
+

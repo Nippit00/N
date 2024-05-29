@@ -1,0 +1,124 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body class="bg-gray-100">
+    <!-- Include Navbar -->
+    <%- include('../include/ad-navbar.ejs') %>
+
+    <div class="container mx-auto py-8">
+      <h1 class="text-3xl text-center font-semibold mb-8">แสดงคำถาม</h1>
+
+      <form action="/admin/addQuestion" method="post" class="max-w-md mx-auto">
+        <div class="flex items-center border-b border-b-2 border-blue-500 py-2">
+          <input
+            name="New_Question"
+            class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
+            type="text"
+            placeholder="ใส่คำถามที่อยากเพิ่ม"
+          />
+          <input type="hidden" name="_csrf" value="<%=csrfToken%>" id="token" />
+          <button
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            type="submit"
+          >
+            เพิ่มคำถาม
+          </button>
+        </div>
+      </form>
+      <!-- more content here -->
+    </div>
+    <div class="overflow-x-auto">
+      <table class="table-auto w-full text-center">
+        <thead>
+          <tr>
+           
+            <th class="px-4 py-2 bg-gray-200">Question</th>
+            <th class="px-4 py-2 bg-gray-200">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% data.forEach(item => { %>
+          <tr>
+            
+            <td class="px-4 py-2 border"><%= item.question %></td>
+            <td class="px-4 py-2 border">
+              <button
+                class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline"
+                onclick="DeleteQuestion('<%= item.questionID %>')"
+              >
+                Delete
+              </button>
+            </td>
+          </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Include Footer -->
+    <%- include('../include/ad-footer.ejs') %>
+  </body>
+  <script>
+    function DeleteQuestion(QID) {
+      window.location.href = `/admin/question/${QID}`;
+    }
+    const urlParams = new URLSearchParams(window.location.search);
+    const successParam = urlParams.get("success");
+    if ("<%=success%>" === "true") {
+      swal({
+        title: "Success!",
+        text: "Data saved successfully",
+        icon: "success",
+      }).then(function () {
+        window.location.href = "/admin/city";
+      });
+    }
+  </script>
+  <script>
+    const searchInput = document.getElementById("searchInput");
+
+    searchInput.addEventListener("keyup", (event) => {
+      // ตรวจสอบว่าปุ่มที่ถูกกดคือปุ่ม Enter (keyCode 13)
+
+      searchQuestion();
+    });
+
+    function searchQuestion() {
+      // รับค่าที่ค้นหาจาก input ใน Navbar
+      const searchText = document
+        .getElementById("searchInput")
+        .value.toLowerCase();
+
+      // หากค่าที่ค้นหาว่าง ให้แสดงข้อมูลทั้งหมด
+      if (!searchText.trim()) {
+        // แสดงข้อมูลทั้งหมด
+        const tableRows = document.querySelectorAll("tbody tr");
+        tableRows.forEach((row) => {
+          row.style.display = "";
+        });
+        return;
+      }
+
+      // ค้นหาข้อมูลในตารางและซ่อนแถวที่ไม่ตรงกับคำค้นหา
+      const tableRows = document.querySelectorAll("tbody tr");
+      tableRows.forEach((row) => {
+        const questionID = row
+          .querySelector("td:nth-child(1)")
+          .textContent.toLowerCase();
+        const question = row
+          .querySelector("td:nth-child(2)")
+          .textContent.toLowerCase();
+
+        // ถ้าข้อมูลที่ค้นหาตรงกับ questionID หรือ question ในแถวนั้นๆ ให้แสดงแถวนั้น ไม่แสดงให้ซ่อน
+        if (questionID.includes(searchText) || question.includes(searchText)) {
+          row.style.display = "";
+        } else {
+          row.style.display = "none";
+        }
+      });
+    }
+  </script>
+</html>

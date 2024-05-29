@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
+
+
+
+    <title>form</title>
+    <link rel="icon" type="image/x-icon" href="../tracktag/img/favi.png">
+    <style>
+        form {
+            width: 100%;
+            /* ขนาดเต็มหน้าจอ */
+            box-sizing: border-box;
+            /* ให้ขนาดเสมอไม่ว่าจะมีการเพิ่ม padding หรือ border */
+        }
+
+        /* CSS สำหรับ input, select, textarea */
+        input,
+        select,
+        textarea {
+            width: calc(100% - 20px);
+            /* ความกว้างเต็มหน้าจอกลับรอบ ลบ 20px เพื่อให้พอดีกับขนาด border และ padding */
+            padding: 8px;
+            /* ขนาดการเส้นของ input */
+            margin: 5px 0 15px;
+            /* ระยะห่างของ input */
+            box-sizing: border-box;
+            /* ให้ขนาดเสมอไม่ว่าจะมีการเพิ่ม padding หรือ border */
+            border: 2px solid #C2AF76;
+            /* ขนาดและสีของเส้นขอบ */
+            border-radius: 15px;
+            /* ความโค้งของขอบ */
+            background-color: #fffbf0;
+            /* สีพื้นหลัง */
+            transition: border-color 0.3s ease-in-out;
+            /* เพิ่มอนิเมชันเมื่อเมาส์ hover หรือ focus */
+        }
+
+        /* เมื่อเลือก input, select, textarea */
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #8a7961;
+            /* เปลี่ยนสีขอบเป็นสีน้ำตาลเข้มเมื่อได้รับการ focus */
+        }
+
+        /* CSS สำหรับ button */
+        button {
+            background-color: #C2AF76;
+            /* สีพื้นหลัง */
+            color: white;
+            /* สีข้อความ */
+            padding: 10px 15px;
+            /* ขนาด padding ของปุ่ม */
+            border: 2px solid #C2AF76;
+            /* ขนาดและสีของเส้นขอบ */
+            border-radius: 50px;
+            /* ความโค้งของขอบ */
+            cursor: pointer;
+            /* ตัวปรับเปลี่ยนเป็น pointer เมื่อเมาส์ hover */
+            transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out;
+            /* เพิ่มอนิเมชันเมื่อเมาส์ hover หรือ focus */
+        }
+
+        /* เมื่อ hover ที่ปุ่ม */
+        button:hover {
+            background-color: #A9A9A9;
+            /* เปลี่ยนสีพื้นหลังเป็นสีเทาเข้ม */
+            border-color: #A9A9A9;
+            /* เปลี่ยนสีขอบเป็นสีเทาเข้ม */
+        }
+
+        /* เมื่อปุ่มไม่สามารถใช้งานได้ */
+        button:disabled {
+            background-color: #A9A9A9;
+            /* เปลี่ยนสีพื้นหลังเป็นสีเทาเข้ม */
+            border-color: #A9A9A9;
+            /* เปลี่ยนสีขอบเป็นสีเทาเข้ม */
+            cursor: not-allowed;
+            /* เปลี่ยนเคอร์เซอร์เป็นไม่สามารถใช้งานได้ */
+        }
+
+        /* CSS สำหรับ .number-input และ .note-input */
+        .number-input,
+        .note-input {
+            margin-top: 5px;
+            /* ระยะห่างด้านบน */
+            padding: 5px;
+            /* ขนาด padding */
+            width: calc(100% - 10px);
+            /* ความกว้างเต็มหน้าจอกลับรอบ ลบ 10px เพื่อให้พอดีกับขนาด padding */
+        }
+
+        /* CSS สำหรับ .description */
+        .description {
+            color: #a7a7a7;
+            /* สีข้อความ */
+            font-size: medium;
+            /* ขนาดฟอนต์ */
+        }
+
+        /* CSS สำหรับ .back */
+        .back {
+            margin: 30px 0 0 30px;
+            /* ระยะห่างของปุ่ม */
+            color: #000;
+            /* สีข้อความ */
+            background-color: #FFF0C4;
+            /* สีพื้นหลัง */
+            border-radius: 20px;
+            /* ความโค้งของขอบ */
+            width: 100px;
+            /* ความกว้าง */
+            height: 40px;
+            /* ความสูง */
+            text-align: center;
+            /* การจัดตำแหน่งข้อความภายในปุ่ม */
+        }
+
+        /* CSS สำหรับ .head */
+        .head {
+            text-align: center;
+            /* การจัดตำแหน่งข้อความภายในปุ่ม */
+            margin-top: 50px;
+            /* ระยะห่างด้านบน */
+        }
+
+        .custom-container,
+        .custom-container-1 {
+            display: flex;
+            /* ให้เป็น Flexbox */
+            justify-content: space-between;
+            /* การจัดวางเนื้อหาให้แสดงตามระยะห่างระหว่างของพวกเขา */
+            width: 70%;
+            /* ความกว้างของเนื้อหา */
+            margin: 50px auto;
+            /* การจัดข้อความตามแนวนอนและตามแนวตั้ง */
+            padding: 20px;
+            /* การเพิ่มระยะห่างรอบขอบของพื้นหลัง */
+            border-radius: 50px;
+            /* ความโค้งของขอบ */
+            background-color: #FFF0C4;
+            /* สีพื้นหลัง */
+        }
+
+        /* CSS สำหรับ .custom-container-1 > div */
+        .custom-container-1>div {
+            width: 48%;
+            /* ความกว้างของเนื้อหา */
+            padding: 10px;
+            /* การเพิ่มระยะห่างรอบขอบของพื้นหลัง */
+            box-sizing: border-box;
+            /* ปรับขนาดของพื้นหลังเพื่อให้มีขนาดเท่ากัน */
+            margin-bottom: 20px;
+            /* ระยะห่างด้านล่าง */
+        }
+
+        /* CSS สำหรับ .left-content และ .right-content */
+        .left-content,
+        .right-content {
+            width: 50%;
+            /* ความกว้างของเนื้อหา */
+            padding: 10px;
+            /* การเพิ่มระยะห่างรอบขอบของพื้นหลัง */
+            box-sizing: border-box;
+            /* ปรับขนาดของพื้นหลังเพื่อให้มีขนาดเท่ากัน */
+            margin-left: 50px;
+            /* การจัดการระยะห่างทางด้านซ้าย */
+            flex-direction: column;
+            /* การจัดการการจัดวางของเนื้อหาให้อยู่ในคอลัมน์เดียวกัน */
+        }
+
+        /* CSS สำหรับ .right-content ul */
+        .right-content ul {
+            display: flex;
+            /* การแสดงผลให้อยู่ในรูปแบบ Flexbox */
+            flex-direction: column;
+            /* การจัดวางเนื้อหาให้อยู่ในคอลัมน์เดียวกัน */
+            align-items: flex-start;
+            /* การจัดการการจัดตำแหน่งเนื้อหาที่อยู่ทางด้านซ้าย */
+        }
+
+        /* CSS สำหรับ label */
+        label {
+            display: block;
+            /* การแสดงผลเป็นบล็อก */
+            margin-top: 20px;
+            /* ระยะห่างด้านบน */
+            width: 100%;
+            /* ความกว้าง */
+            text-align: left;
+            /* การจัดการการจัดตำแหน่งข้อความ */
+        }
+
+        /* CSS สำหรับ .kpi-label และ .radio-label */
+        .kpi-label,
+        .radio-label {
+            margin-right: 10px;
+            /* ระยะห่างด้านขวา */
+        }
+
+        /* CSS สำหรับ .number-input และ .note-input */
+        .number-input,
+        .note-input {
+            margin-top: 5px;
+            /* ระยะห่างด้านบน */
+            padding: 5px;
+            /* การเพิ่มระยะห่างรอบขอบของพื้นหลัง */
+            width: 100%;
+            /* ความกว้างเต็มหน้าจอ */
+        }
+        #alert{
+            color: red;
+        }
+        #alert2{
+            color: red;
+        }
+    </style>
+</head>
+
+
+
+
+<body>
+
+
+
+    <%- include('component/navbar.ejs') %>
+        <script>
+            function goBack() {
+                window.history.back();
+            }
+        </script>
+        <div>
+            <button class="back" onclick="goBack()">ย้อนกลับ</button>
+        </div>
+
+
+
+
+        <div class="head">
+            <% if (formdata && formdata.length> 0 && formdata[0].cityName) { %>
+                <h5>
+                    <%= formdata[0].cityName %>
+                </h5>
+                <% } else { %>
+                    <h5>ไม่พบข้อมูลเมือง</h5>
+                    <% } %>
+        </div>
+
+
+
+
+
+
+
+
+        <div class="head">
+            <% if (formdata && formdata.length> 0 && formdata[0].solutionName) { %>
+                <h6>ชื่อโครงการ: <%= formdata[0].solutionName %>
+                </h6>
+                <% } else { %>
+                    <h6>ชื่อโครงการ: N/A </h6>
+                    <% } %>
+        </div>
+
+        <div class="custom-container">
+            <div class="left-content">
+                <p class="header">รายละเอียดโครงการ:</p>
+                <p><strong>ชื่อโครงการ:</strong>
+                    <% if (!formdata || formdata.length===0) { %>
+                        <p>ไม่พบข้อมูล</p>
+                        <% } else { %>
+                            <%= formdata[0].solutionName %>
+                                <% } %>
+                </p>
+                <p><strong>รหัสโครงการ:</strong>
+                    <% if (!formdata || formdata.length===0) { %>
+                        <p>ไม่พบข้อมูล</p>
+                        <% } else { %>
+                            <%= formdata[0].solutionID %>
+                                <% } %>
+                </p>
+                <p><strong>Smart:</strong>
+                    <% if (!formdata || formdata.length===0) { %>
+                        <p>ไม่พบข้อมูล</p>
+                        <% } else { %>
+                            <%= formdata[0].smart %>
+                                <% } %>
+                </p>
+                <p><strong>แหล่งเงินทุน:</strong>
+                    <% if (!formdata || formdata.length===0) { %>
+                        <p>ไม่พบข้อมูล</p>
+                        <% } %>
+                </p>
+                <p><strong>เงินทุน (บาท):</strong>
+                    <% if (!formdata || formdata.length===0) { %>
+                        <p>ไม่พบข้อมูล</p>
+                        <% } else { %>
+                            <%= formdata[0].funds %> บาท
+                                <% } %>
+                </p>
+            </div>
+
+
+
+
+            <div class="right-content" \88++>
+                <p><strong>ตัวชี้วัด :</strong></p>
+                <ul class="flex flex-col ">
+                    <% kpiQ.forEach(item=> { %>
+                        <p>
+                            - <%= item.kpiName %>
+                        </p>
+                        <% }); %>
+                </ul>
+            </div>
+        </div>
+
+        <div class="custom-container-1">
+            <form action="/saveForm/<%= formdata[0].solutionID %>/<%= round %>" method="post" id="reportForm">
+                <div>
+                    <input type="hidden" name="Q1" value="สถานะ">
+                    <label for="status">สถานะ :</label>
+                    <p class="description">สถานะปัจจุบันของการดำเนินโครงการ</p>
+                    <select id="status" name="A1" required>
+                        <option value="ยังไม่ดำเนินโครงการ" <%= (dataOld.find(d => d.questionID == '1')?.ans ?? '') === 'ยังไม่ดำเนินโครงการ' ? 'selected' : '' %>>ยังไม่ดำเนินโครงการ</option>
+                        <option value="ล่าช้ากว่าแผน" <%= (dataOld.find(d => d.questionID == '1')?.ans ?? '') === 'ล่าช้ากว่าแผน' ? 'selected' : '' %>>ล่าช้ากว่าแผน</option>
+                        <option value="ตามแผน" <%= (dataOld.find(d => d.questionID == '1')?.ans ?? '') === 'ตามแผน' ? 'selected' : '' %>>ตามแผน</option>
+                        <option value="เร็วกว่าแผน" <%= (dataOld.find(d => d.questionID == '1')?.ans ?? '') === 'เร็วกว่าแผน' ? 'selected' : '' %>>เร็วกว่าแผน</option>
+                        <option value="ยกเลิก" <%= (dataOld.find(d => d.questionID == '1')?.ans ?? '') === 'ยกเลิก' ? 'selected' : '' %>>ยกเลิก</option>
+                    </select>
+                </div>
+        
+                <div>
+                    <input type="hidden" name="Q2" value="ความก้าวหน้าโครงการ">
+                    <label for="progress">ความก้าวหน้าโครงการ :</label>
+                    <p class="description">ร้อยละของความก้าวหน้าภาพรวมในการดำเนินโครงการ</p>
+                    <select id="progress" name="A2" placeholder="ความก้าวหน้าโครงการ" onchange="toggleFileUpload()">
+                        <option value="0">ระบุ % ความก้าวหน้า</option>
+                        <% for (let i = 0; i <= 100; i += 5) { %>
+                            <option value="<%= i %>" <%= (dataOld.find(d => d.questionID == '2')?.ans ?? '') == i ? 'selected' : '' %>><%= i %>%</option>
+                        <% } %>
+                    </select>
+                </div>
+        
+                <div id="fileUploadContainer" style="display: none;">
+                    <input type="hidden" name="Q3" value="FileUpload">
+                    <label for="fileUpload">แนบรูปภาพ :</label>
+                    <p class="description">แนบภาพประกอบการดำเนินโครงการเพื่อเป็นหลักฐานแสดงความสำเร็จของโครงการ</p>
+                    <input type="file" id="fileUpload" name="A3" accept=".pdf, .doc, .docx">
+                </div>
+        
+                <div>
+                    <input type="hidden" name="Q4" value="ผลการดำเนินงาน">
+                    <label for="operation">ผลการดำเนินงาน:</label>
+                    <p class="description">ระบุผลสำเร็จหรือผลประโยชน์ที่เกิดขึ้นจากการดำเนินโครงการ</p>
+                    <textarea id="operation" name="A4" placeholder="กรอกข้อความ...."><%= dataOld.find(d => d.questionID == '4')?.ans ?? '' %></textarea>
+                </div>
+        
+                <div>
+                    <input type="hidden" name="Q5" value="ประเภทปัญหา">
+                    <label for="problem_type">ประเภทปัญหา:</label>
+                    <p class="description">ระบุประเภทปัญหาที่พบจากการดำเนินโครงการ</p>
+                    <select id="problem_type" name="A5">
+                        <option value="null" <%= (dataOld.find(d => d.questionID == '5')?.ans ?? '') === 'null' ? 'selected' : '' %>>ระบุประเภทปัญหา</option>
+                        <option value="เทคนิค" <%= (dataOld.find(d => d.questionID == '5')?.ans ?? '') === 'เทคนิค' ? 'selected' : '' %>>เทคนิค</option>
+                        <option value="การเงิน" <%= (dataOld.find(d => d.questionID == '5')?.ans ?? '') === 'การเงิน' ? 'selected' : '' %>>การเงิน</option>
+                        <option value="การจัดการ" <%= (dataOld.find(d => d.questionID == '5')?.ans ?? '') === 'การจัดการ' ? 'selected' : '' %>>การจัดการ</option>
+                        <option value="ไม่มีปัญหา/อุปสรรค" <%= (dataOld.find(d => d.questionID == '5')?.ans ?? '') === 'ไม่มีปัญหา/อุปสรรค' ? 'selected' : '' %>>ไม่มีปัญหา/อุปสรรค</option>
+                        <option value="ไม่มีงบประมาณ" <%= (dataOld.find(d => d.questionID == '5')?.ans ?? '') === 'ไม่มีงบประมาณ' ? 'selected' : '' %>>ไม่มีงบประมาณ</option>
+                        <option value="ขาดแคลนบุคลากร" <%= (dataOld.find(d => d.questionID == '5')?.ans ?? '') === 'ขาดแคลนบุคลากร' ? 'selected' : '' %>>ขาดแคลนบุคลากร</option>
+                        <option value="เปลี่ยนแปลงด้านนโยบาย" <%= (dataOld.find(d => d.questionID == '5')?.ans ?? '') === 'เปลี่ยนแปลงด้านนโยบาย' ? 'selected' : '' %>>เปลี่ยนแปลงด้านนโยบาย</option>
+                        <option value="ปัญหาด้านการใช้เทคโนโลยี" <%= (dataOld.find(d => d.questionID == '5')?.ans ?? '') === 'ปัญหาด้านการใช้เทคโนโลยี' ? 'selected' : '' %>>ปัญหาด้านการใช้เทคโนโลยี</option>
+                        <option value="ข้อจำกัดด้านกฏระเบียบ" <%= (dataOld.find(d => d.questionID == '5')?.ans ?? '') === 'ข้อจำกัดด้านกฏระเบียบ' ? 'selected' : '' %>>ข้อจำกัดด้านกฏระเบียบ</option>
+                        <option value="ขาดผู้ใช้งาน/ขาดการสร้างความตระหนักรู้แก่ประชาชน" <%= (dataOld.find(d => d.questionID == '5')?.ans ?? '') === 'ขาดผู้ใช้งาน/ขาดการสร้างความตระหนักรู้แก่ประชาชน' ? 'selected' : '' %>>ขาดผู้ใช้งาน/ขาดการสร้างความตระหนักรู้แก่ประชาชน</option>
+                        <option value="ไม่มีเจ้าภาพในการดำเนินกิจกรรม" <%= (dataOld.find(d => d.questionID == '5')?.ans ?? '') === 'ไม่มีเจ้าภาพในการดำเนินกิจกรรม' ? 'selected' : '' %>>ไม่มีเจ้าภาพในการดำเนินกิจกรรม</option>
+                        <option value="Infrastructure ไม่เพียงพอเพื่อรองรับการดำเนินการ" <%= (dataOld.find(d => d.questionID == '5')?.ans ?? '') === 'Infrastructure ไม่เพียงพอเพื่อรองรับการดำเนินการ' ? 'selected' : '' %>>Infrastructure ไม่เพียงพอเพื่อรองรับการดำเนินการ</option>
+                        <option value="อื่น ๆ" <%= (dataOld.find(d => d.questionID == '5')?.ans ?? '') === 'อื่น ๆ' ? 'selected' : '' %>>อื่น ๆ</option>
+                    </select>
+                    
+                </div>
+        
+                <div>
+                    <input type="hidden" name="Q6" value="ปัญหาอื่น ๆ">
+                    <label for="result">ปัญหาอื่นๆ:</label>
+                    <p class="description">ระบุปัญหาที่พบจากการดำเนินโครงการ นอกเหนือจากที่กำหนดไว้</p>
+                    <textarea id="result" name="A6" placeholder="กรอกข้อความ...."><%= dataOld.find(d => d.questionID == '6')?.ans ?? '' %></textarea>
+                </div>
+        
+                <div>
+                    <input type="hidden" name="Q7" value="ผลลัพธ์">
+                    <label for="result">ผลลัพธ์:</label>
+                    <p class="description">ผลที่เกิดขึ้นต่อยอดจากผลผลิต หรือผลระยะยาวซึ่งเกิดเป็นผลจุดหมายปลายทาง หรือผลต่อเนื่องจากผลกระทบ</p>
+                    <textarea id="result" name="A7" placeholder="กรอกข้อความ...."><%= dataOld.find(d => d.questionID == '7')?.ans ?? '' %></textarea>
+                </div>
+        
+                <div>
+                    <input type="hidden" name="Q8" value="ปัญหา/อุปสรรค">
+                    <label for="problem">ปัญหา/อุปสรรค:</label>
+                    <p class="description">อธิบายรายละเอียดของปัญหาที่พบจากการดำเนินโครงการ</p>
+                    <textarea id="problem" name="A8" placeholder="กรอกข้อความ...."><%= dataOld.find(d => d.questionID == '8')?.ans ?? '' %></textarea>
+                </div>
+        
+                <div>
+                    <input type="hidden" name="Q9" value="แนวทางแก้ไข">
+                    <label for="solution">แนวทางแก้ไข:</label>
+                    <p class="description">ระบุวิธีการแก้ไขปัญหาที่พบจากการดำเนินโครงการ</p>
+                    <textarea id="solution" name="A9" placeholder="กรอกข้อความ...."><%= dataOld.find(d => d.questionID == '9')?.ans ?? '' %></textarea>
+                </div>
+        
+                <div>
+                    <input type="hidden" name="Q10" value="หมายเหตุ">
+                    <label for="note">หมายเหตุ:</label>
+                    <p class="description">ผลการดำเนินการอื่นๆที่ต้องการรายงาน</p>
+                    <textarea id="note" name="A10" placeholder="กรอกข้อความ...."><%= dataOld.find(d => d.questionID == '10')?.ans ?? '' %></textarea>
+                </div>
+                <div>
+                    <input type="hidden" name="Q11" value="หมายเหตุ">
+                    <label for="bubget">งบประมาณที่ใช้ในการดำเนินการ:</label>
+                    <p class="description">ระบุงบประมาณที่เกิดขึ้นจากการดำเนินโครงการ</p>
+                    <textarea id="bubget" name="A11" placeholder="กรอกข้อความ...."><%= dataOld.find(d => d.questionID == '11')?.ans ?? '' %></textarea>
+                </div>
+        
+                <!-- Additional Questions -->
+                <% question.forEach((item, index) => { 
+                    if (index >= 11) { 
+                %>
+                <div class="display-none">
+                    <input type="hidden" value="<%= item.question %>" name="Q<%= item.questionID %>">
+                    <label for="other">
+                        <%= item.question %>:
+                    </label>
+                    <p class="description">
+                        <%= item.Description %>
+                    </p>
+                    <textarea id="other" name="A<%= item.questionID %>" placeholder="กรอกข้อความ...."><%= dataOld.find(d => d.questionID == item.questionID)?.ans ?? '' %></textarea>
+                </div>
+                <% 
+                    }
+                }); 
+                %>
+        
+                <h2> รายงานผลการดำเนินงาน (ตัวชี้วัด)</h2>
+                <!-- KPI Questions -->
+                <% kpiQ.forEach(item => { %>
+                <div class="display-none">
+                    <label class="kpi-label" for="<%= item.kpiID %>">
+                        <%= item.kpiName %>:
+                    </label>
+                    <% if(item.goal == 0) { %>
+                        <label class="radio-label">Yes</label>
+                        <input class="radio-input" type="radio" name="<%= item.kpiID %>" value="Yes" <%= item.ans === 'Yes' ? 'checked' : '' %>>
+                        <label class="radio-label">No</label>
+                        <input class="radio-input" type="radio" name="<%= item.kpiID %>" value="No" <%= item.ans === 'No' ? 'checked' : '' %>>
+                    <% } else { %>
+                        <input type="hidden" id="C<%= item.kpiID %>" value="<%= item.goal %>">
+                        <input class="number-input" type="number" placeholder="<%= item.unit %>" id="A<%= item.kpiID %>" name="<%= item.kpiID %>" step="0.01" value="<%= item.ans !== '' ? item.ans : '' %>">
+                        <br />
+                        <input class="note-input" placeholder="หมายเหตุเพิ่มเติม" value="<%= item.note ? item.note : '' %>">
+                    <% } %>
+                </div>
+                <% }); %>
+        
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <input type="hidden" id="currentDateTime" name="currentDateTime" value="">
+                <input type="hidden" name="round" value="<%= round %>">
+        
+                <p id="alert">*** โปรดอ่าน: กรุณากดบันทึกทุกครั้งเพื่อบันทึกคำตอบไว้ ***</p>
+                <p id="alert2">*** ต้องกดส่งรายงานเท่านั้น จึงจะเป็นการส่งฟอร์ม ***</p>
+                <button type="submit" id="saveButton">บันทึก</button>
+                <button type="submit" id="submitButton">ส่งรายงาน</button>
+            </form>
+        </div>
+        
+        
+        
+
+        <%- include('component/footer.ejs') %>
+
+
+
+
+</body>
+<script>
+    document.getElementById('submitButton').addEventListener('click', function (event) {
+
+        
+
+        let isValid = true;
+        let firstInvalidElement = null;
+        const requiredFields = ['status', 'progress', 'operation', 'problem_type', 'result', 'solution', 'note', 'bubget'];
+
+        
+
+
+
+
+        // Check standard required fields
+        requiredFields.forEach(field => {
+            const element = document.getElementById(field);
+            console.log(element)
+            if (element && !element.value.trim()) {
+                isValid = false;
+                element.style.border = '2px solid red';
+                if (!firstInvalidElement) {
+                    firstInvalidElement = element;
+                }
+            } else if (element) {
+                element.style.border = '';
+            }
+        });
+
+        const questionContainers = document.querySelectorAll('.question-container');
+        questionContainers.forEach(container => {
+            const questionInputs = container.querySelectorAll('textarea');
+            questionInputs.forEach(input => {
+                if (!input.value.trim()) {
+                    isValid = false;
+                    input.style.border = '2px solid red';
+                    if (!firstInvalidElement) {
+                        firstInvalidElement = input;
+                    }
+                } else {
+                    input.style.border = '';
+                }
+            });
+        });
+
+        // Check KPI required fields
+        const kpiFields = document.querySelectorAll('input[type=number],textarea');
+        kpiFields.forEach(field => {
+            if (field.type === 'radio') {
+                const radioGroup = document.getElementsByName(field.name);
+                const isChecked = Array.from(radioGroup).some(radio => radio.checked);
+                if (!isChecked) {
+                    isValid = false;
+                    radioGroup.forEach(radio => radio.parentNode.style.border = '2px solid red');
+                    if (!firstInvalidElement) {
+                        firstInvalidElement = radioGroup[0];
+                    }
+                } else {
+                    radioGroup.forEach(radio => radio.parentNode.style.border = '');
+                }
+            } else if (field.type === 'number' && !field.value.trim()) {
+                isValid = false;
+                field.style.border = '2px solid red';
+                if (!firstInvalidElement) {
+                    firstInvalidElement = field;
+                }
+            } else {
+                field.style.border = '';
+            }
+        });
+
+        if (!isValid) {
+            alert('กรุณากรอกข้อมูลให้ครบทุกช่อง');
+            if (firstInvalidElement) {
+                firstInvalidElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                firstInvalidElement.focus();
+            }
+            event.preventDefault();
+        }
+        if(isValid){
+        event.preventDefault();  
+            reportForm.action = "/formcheck/<%=formdata[0].solutionID%>/<%= round %>";
+           reportForm.submit();
+        }
+    });
+
+
+
+
+    function toggleFileUpload() {
+        const progress = document.getElementById('progress').value;
+        const fileUploadContainer = document.getElementById('fileUploadContainer');
+        if (progress == '100') {
+            fileUploadContainer.style.display = 'block';
+        } else {
+            fileUploadContainer.style.display = 'none';
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        toggleFileUpload(); // Check the initial state on page load
+
+        const urlParams = new URLSearchParams(window.location.search);
+                const successParam = urlParams.get('success');
+                if (successParam === 'true') {
+                    Swal.fire({
+                        title: "บันทึกสำเร็จ!",
+                        text: "บันทึกฉบับร่างสำเร็จ",
+                        icon: "success",
+                    }).then(function () {
+                        window.location.href = "/city/follow";
+                    });
+                }
+
+        document.getElementById('fileUpload').addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                const formData = new FormData();
+                formData.append('fileUpload', file);
+
+
+                const csrfToken = document.querySelector('input[name="_csrf"]').value;
+                const solutionID = '<%=formdata[0].solutionID%>';
+
+
+                fetch(`/upload/formsmart/${solutionID}`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-Token': csrfToken
+                    },
+                    body: formData
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('Upload successful:', data);
+                    })
+                    .catch(error => {
+                        console.error('There was a problem with the upload:', error);
+                    });
+            }
+        });
+    });
+
+
+
+</script>
+
+
+
+</html>

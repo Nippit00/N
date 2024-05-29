@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Form</title>
+    <!-- Include Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto mt-8">
+        <h1 class="text-2xl font-bold mb-4">Select Form</h1>
+        <form action="/admin/addSolution" method="post" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            <div class="mb-4">
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="cityID" type="hidden" placeholder="City ID" name="cityID" value="<%=cityID  %>">
+            </div>
+            <!-- <%=cityID  %> -->
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="solutionID">
+                    Solution ID
+                </label>
+               <input
+  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+  id="solutionID"
+  type="text"
+  name="solutionID"
+  placeholder="Solution ID"
+  maxlength="9"
+  pattern=".{0,9}"
+  title="Please enter exactly 9 characters."
+  required
+/>
+
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="sourceFunds">
+                    Solution Name
+                </label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="sourceFunds" type="text" placeholder="Source Funds" name="solutionName">
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="solutionType">
+                    Smart
+                </label>
+                <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="solutionType" name="smart">
+                    <option value="Environment">Environment</option>
+                    <option value="Energy">Energy</option>
+                    <option value="Economy">Economy</option>
+                    <option value="Governance">Governance</option>
+                    <option value="Living">Living</option>
+                    <option value="Mobility">Mobility</option>
+                    <option value="People">People</option>
+                </select>
+            </div>
+            
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="sourceFunds">
+                    Source Funds
+                </label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="sourceFunds" type="text" placeholder="Source Funds" name="sourceFunds">
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="funds">
+                    Funds
+                </label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="funds" type="number" placeholder="Funds" name="funds">
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="startYear">
+                    Start Year
+                </label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="startYear" id="startYear" type="number" min="2560" max="2600" step="1" value="2567"  placeholder="Start Year">
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="endYear">
+                    End Year
+                </label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="endYear" id="endYear" type="number" min="2560" max="2600" step="1" value="2569"  placeholder="End Year">
+            </div>
+            
+                </label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value='0' id="status" type="hidden" placeholder="Status" name="status">
+            
+            <input type="hidden" name="_csrf" value="<%=csrfToken%>" id="token" />
+            <div class="flex items-center justify-between">
+                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                    Add Solution
+                </button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

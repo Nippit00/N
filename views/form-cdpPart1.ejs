@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>form</title>
+    <link rel="icon" type="image/x-icon" href="../tracktag/img/favi.png">
+    <style>
+        form {
+            width: 100%;
+            /* ขนาดเต็มหน้าจอ */
+            box-sizing: border-box;
+            /* ให้ขนาดเสมอไม่ว่าจะมีการเพิ่ม padding หรือ border */
+        }
+
+        /* CSS สำหรับ input, select, textarea */
+        input,
+        select,
+        textarea {
+            width: calc(100% - 20px);
+            /* ความกว้างเต็มหน้าจอกลับรอบ ลบ 20px เพื่อให้พอดีกับขนาด border และ padding */
+            padding: 8px;
+            /* ขนาดการเส้นของ input */
+            margin: 5px 0 15px;
+            /* ระยะห่างของ input */
+            box-sizing: border-box;
+            /* ให้ขนาดเสมอไม่ว่าจะมีการเพิ่ม padding หรือ border */
+            border: 2px solid #C2AF76;
+            /* ขนาดและสีของเส้นขอบ */
+            border-radius: 15px;
+            /* ความโค้งของขอบ */
+            background-color: #fffbf0;
+            /* สีพื้นหลัง */
+            transition: border-color 0.3s ease-in-out;
+            /* เพิ่มอนิเมชันเมื่อเมาส์ hover หรือ focus */
+        }
+
+        /* เมื่อเลือก input, select, textarea */
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #8a7961;
+            /* เปลี่ยนสีขอบเป็นสีน้ำตาลเข้มเมื่อได้รับการ focus */
+        }
+
+        /* CSS สำหรับ button */
+        button {
+            background-color: #C2AF76;
+            /* สีพื้นหลัง */
+            color: white;
+            /* สีข้อความ */
+            padding: 10px 15px;
+            /* ขนาด padding ของปุ่ม */
+            border: 2px solid #C2AF76;
+            /* ขนาดและสีของเส้นขอบ */
+            border-radius: 50px;
+            /* ความโค้งของขอบ */
+            cursor: pointer;
+            /* ตัวปรับเปลี่ยนเป็น pointer เมื่อเมาส์ hover */
+            transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out;
+            /* เพิ่มอนิเมชันเมื่อเมาส์ hover หรือ focus */
+        }
+
+        /* เมื่อ hover ที่ปุ่ม */
+        button:hover {
+            background-color: #A9A9A9;
+            /* เปลี่ยนสีพื้นหลังเป็นสีเทาเข้ม */
+            border-color: #A9A9A9;
+            /* เปลี่ยนสีขอบเป็นสีเทาเข้ม */
+        }
+
+        /* เมื่อปุ่มไม่สามารถใช้งานได้ */
+        button:disabled {
+            background-color: #A9A9A9;
+            /* เปลี่ยนสีพื้นหลังเป็นสีเทาเข้ม */
+            border-color: #A9A9A9;
+            /* เปลี่ยนสีขอบเป็นสีเทาเข้ม */
+            cursor: not-allowed;
+            /* เปลี่ยนเคอร์เซอร์เป็นไม่สามารถใช้งานได้ */
+        }
+
+        /* CSS สำหรับ .number-input และ .note-input */
+        .number-input,
+        .note-input {
+            margin-top: 5px;
+            /* ระยะห่างด้านบน */
+            padding: 5px;
+            /* ขนาด padding */
+            width: calc(100% - 10px);
+            /* ความกว้างเต็มหน้าจอกลับรอบ ลบ 10px เพื่อให้พอดีกับขนาด padding */
+        }
+
+        /* CSS สำหรับ .description */
+        .description {
+            color: #a7a7a7;
+            /* สีข้อความ */
+            font-size: medium;
+            /* ขนาดฟอนต์ */
+        }
+
+        /* CSS สำหรับ .back */
+        .back {
+            margin: 30px 0 0 30px;
+            /* ระยะห่างของปุ่ม */
+            color: #000;
+            /* สีข้อความ */
+            background-color: #FFF0C4;
+            /* สีพื้นหลัง */
+            border-radius: 20px;
+            /* ความโค้งของขอบ */
+            width: 100px;
+            /* ความกว้าง */
+            height: 40px;
+            /* ความสูง */
+            text-align: center;
+            /* การจัดตำแหน่งข้อความภายในปุ่ม */
+        }
+
+        /* CSS สำหรับ .head */
+        .head {
+            text-align: center;
+            /* การจัดตำแหน่งข้อความภายในปุ่ม */
+            margin-top: 50px;
+            /* ระยะห่างด้านบน */
+        }
+
+        .custom-container,
+        .custom-container-1 {
+            display: flex;
+            /* ให้เป็น Flexbox */
+            justify-content: space-between;
+            /* การจัดวางเนื้อหาให้แสดงตามระยะห่างระหว่างของพวกเขา */
+            width: 70%;
+            /* ความกว้างของเนื้อหา */
+            margin: 50px auto;
+            /* การจัดข้อความตามแนวนอนและตามแนวตั้ง */
+            padding: 20px;
+            /* การเพิ่มระยะห่างรอบขอบของพื้นหลัง */
+            border-radius: 50px;
+            /* ความโค้งของขอบ */
+            background-color: #FFF0C4;
+            /* สีพื้นหลัง */
+        }
+
+        /* CSS สำหรับ .custom-container-1 > div */
+        .custom-container-1>div {
+            width: 48%;
+            /* ความกว้างของเนื้อหา */
+            padding: 10px;
+            /* การเพิ่มระยะห่างรอบขอบของพื้นหลัง */
+            box-sizing: border-box;
+            /* ปรับขนาดของพื้นหลังเพื่อให้มีขนาดเท่ากัน */
+            margin-bottom: 20px;
+            /* ระยะห่างด้านล่าง */
+        }
+
+        /* CSS สำหรับ .left-content และ .right-content */
+        .left-content,
+        .right-content {
+            width: 50%;
+            /* ความกว้างของเนื้อหา */
+            padding: 10px;
+            /* การเพิ่มระยะห่างรอบขอบของพื้นหลัง */
+            box-sizing: border-box;
+            /* ปรับขนาดของพื้นหลังเพื่อให้มีขนาดเท่ากัน */
+            margin-left: 50px;
+            /* การจัดการระยะห่างทางด้านซ้าย */
+            flex-direction: column;
+            /* การจัดการการจัดวางของเนื้อหาให้อยู่ในคอลัมน์เดียวกัน */
+        }
+
+        /* CSS สำหรับ .right-content ul */
+        .right-content ul {
+            display: flex;
+            /* การแสดงผลให้อยู่ในรูปแบบ Flexbox */
+            flex-direction: column;
+            /* การจัดวางเนื้อหาให้อยู่ในคอลัมน์เดียวกัน */
+            align-items: flex-start;
+            /* การจัดการการจัดตำแหน่งเนื้อหาที่อยู่ทางด้านซ้าย */
+        }
+
+        /* CSS สำหรับ label */
+        label {
+            display: block;
+            /* การแสดงผลเป็นบล็อก */
+            margin-top: 20px;
+            /* ระยะห่างด้านบน */
+            width: 100%;
+            /* ความกว้าง */
+            text-align: left;
+            /* การจัดการการจัดตำแหน่งข้อความ */
+        }
+
+        #fileUpload {
+            display: none;
+        }
+
+        .footer label {
+            font-weight: bold;
+            margin-left: 13rem;
+            margin-top: 5rem;
+            font-size: 17px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <%- include('component/navbar.ejs') %>
+        <script>
+            function goBack() {
+                window.history.back();
+            }
+        </script>
+        <div>
+            <button class="back" onclick="goBack()">ย้อนกลับ</button>
+        </div>
+
+        <div class="head">
+            <% if (formdata && formdata.length> 0 && formdata[0].cityName) { %>
+                <h5>
+                    <%= formdata[0].cityName %>
+                </h5>
+                <% } else { %>
+                    <h5>ไม่พบข้อมูลเมือง</h5>
+                    <% } %>
+        </div>
+
+
+
+
+
+
+
+
+        <div class="head">
+            <% if (formdata && formdata.length> 0 && formdata[0].solutionName) { %>
+                <h6>ชื่อโครงการ: <%= formdata[0].solutionName %>
+                </h6>
+                <% } else { %>
+                    <h6>ชื่อโครงการ: N/A </h6>
+                    <% } %>
+        </div>
+
+
+
+
+
+
+
+
+        <div class="custom-container">
+            <div class="left-content">
+                <p class="header">รายละเอียดโครงการ:</p>
+                <p><strong>ชื่อโครงการ:</strong>
+                    <% if (!formdata || formdata.length===0) { %>
+                        <p>ไม่พบข้อมูล</p>
+                        <% } else { %>
+                            <%= formdata[0].solutionName %>
+                                <% } %>
+                </p>
+                <p><strong>รหัสโครงการ:</strong>
+                    <% if (!formdata || formdata.length===0) { %>
+                        <p>ไม่พบข้อมูล</p>
+                        <% } else { %>
+                            <%= formdata[0].solutionID %>
+                                <% } %>
+                </p>
+                <p><strong>Smart:</strong>
+                    <% if (!formdata || formdata.length===0) { %>
+                        <p>ไม่พบข้อมูล</p>
+                        <% } else { %>
+                            <%= formdata[0].smart %>
+                                <% } %>
+                </p>
+                <p><strong>แหล่งเงินทุน:</strong>
+                    <% if (!formdata || formdata.length===0) { %>
+                        <p>ไม่พบข้อมูล</p>
+                        <% } %>
+                </p>
+                <p><strong>เงินทุน (บาท):</strong>
+                    <% if (!formdata || formdata.length===0) { %>
+                        <p>ไม่พบข้อมูล</p>
+                        <% } else { %>
+                            <%= formdata[0].funds %> บาท
+                                <% } %>
+                </p>
+            </div>
+
+
+
+
+            <div class="right-content" \88++>
+                <p><strong>CDP :</strong></p>
+                <ul class="flex flex-col ">
+                    <% datakpi.forEach(item=> { %>
+                        <p>
+                            - <%= item.kpiName %>
+                        </p>
+                        <% }); %>
+                </ul>
+            </div>
+
+
+
+
+        </div>
+
+        <div class="custom-container-1">
+            <form action="/saveFormcdp1/<%=formdata[0].solutionID%>" method="post">
+                <div>
+                    <input type="hidden" name="Q1" value="สถานะ">
+                    <label for="status">สถานะ :</label>
+                    <p class="description">สถานะปัจจุบันของการดำเนินโครงการ</p>
+                    <select id="status" name="A1" required>
+                        <option value="ยังไม่ดำเนินโครงการ" <% if (!dataOld.length || dataOld.length && dataOld[0].ans
+                            && JSON.parse(dataOld[0].ans)[0].Answer==='ยังไม่ดำเนินโครงการ' ) { %>selected<% } %>
+                                >ยังไม่ดำเนินโครงการ</option>
+
+                        <option value="ล่าช้ากว่าแผน" <% if (dataOld.length && dataOld[0].ans &&
+                            JSON.parse(dataOld[0].ans)[0].Answer==='ล่าช้ากว่าแผน' ) { %>selected<% } %>>ล่าช้ากว่าแผน
+                        </option>
+                        <option value="ตามแผน" <% if (dataOld.length && dataOld[0].ans &&
+                            JSON.parse(dataOld[0].ans)[0].Answer==='ตามแผน' ) { %>selected<% } %>>ตามแผน</option>
+                        <option value="เร็วกว่าแผน" <% if (dataOld.length && dataOld[0].ans &&
+                            JSON.parse(dataOld[0].ans)[0].Answer==='เร็วกว่าแผน' ) { %>selected<% } %>>เร็วกว่าแผน
+                        </option>
+                        <option value="ยังไม่ดำเนินโครงการ" <% if (dataOld.length && dataOld[0].ans &&
+                            JSON.parse(dataOld[0].ans)[0].Answer==='ยังไม่ดำเนินโครงการ' ) { %>selected<% } %>
+                                >ยังไม่ดำเนินโครงการ</option>
+                        <option value="ยกเลิก" <% if (dataOld.length && dataOld[0].ans &&
+                            JSON.parse(dataOld[0].ans)[0].Answer==='ยกเลิก' ) { %>selected<% } %>>ยกเลิก</option>
+
+                    </select>
+                </div>
+
+
+
+
+                <div>
+                    <input type="hidden" name="Q2" value="ความก้าวหน้าโครงการ">
+                    <label for="progress">ความก้าวหน้าโครงการ :</label>
+                    <p class="description">ร้อยละของความก้าวหน้าภาพรวมในการดำเนินโครงการ</p>
+                    <select id="progress" name="A2" placeholder="ความก้าวหน้าโครงการ">
+                        <option value="0" <% if (!dataOld.length || !dataOld[0].ans ||
+                            JSON.parse(dataOld[0].ans)[1].Answer===null) { %>selected<% } %>>ระบุ % ความก้าวหน้า
+                        </option>
+                        <% for (let i=0; i <=100; i +=5) { %>
+                            <option value="<%= i %>" <% if (dataOld.length && dataOld[0].ans &&
+                                JSON.parse(dataOld[0].ans)[1].Answer==i) { %>
+                                selected
+                                <% } %>>
+                                    <%= i %>%
+                            </option>
+                            <% } %>
+                    </select>
+
+                </div>
+
+
+
+
+                <div>
+
+                    <input type="hidden" name="Q3" value="FileUpload">
+
+                    <label for="fileUpload">แนบรูปภาพ</label>
+                    <p class="description">แนบภาพประกอบการดำเนินโครงการเพื่อเป็นหลักฐานแสดงความสำเร็จของโครงการ</p>
+                    <input type="file" id="fileUpload" name="A3" accept=".pdf, .doc, .docx">
+                </div>
+
+
+
+
+                <div>
+                    <input type="hidden" name="Q4" value="ผลการดำเนินงาน">
+                    <label for="operation">ผลการดำเนินงาน:</label>
+                    <p class="description">ระบุผลสำเร็จหรือผลประโยชน์ที่เกิดขึ้นจากการดำเนินโครงการ</p>
+                    <textarea id="operation" name="A4"
+                        placeholder="กรอกข้อความ...."><%= dataOld.length && dataOld[0].ans ? JSON.parse(dataOld[0].ans)[3].Answer : '' %></textarea>
+                </div>
+
+
+
+                <div>
+                    <input type="hidden" name="Q5" value="ประเภทปัญหา">
+                    <label for="problem_type">ประเภทปัญหา:</label>
+                    <p class="description">ระบุผลสำเร็จหรือผลประโยชน์ที่เกิดขึ้นจากการดำเนินโครงการ</p>
+                    <select id="problem_type" name="A5">
+
+                        <option value="null" <% if (!dataOld.length || !dataOld[0].ans ||
+                            JSON.parse(dataOld[0].ans)[4].Answer===null) { %>selected<% } %>>ระบุประเภทปัญหา</option>
+                        <option value="เทคนิค" <% if (dataOld.length && dataOld[0].ans &&
+                            JSON.parse(dataOld[0].ans)[4].Answer==='เทคนิค' ) { %>selected<% } %>>เทคนิค</option>
+                        <option value="การเงิน" <% if (dataOld.length && dataOld[0].ans &&
+                            JSON.parse(dataOld[0].ans)[4].Answer==='การเงิน' ) { %>selected<% } %>>การเงิน</option>
+                        <option value="การจัดการ" <% if (dataOld.length && dataOld[0].ans &&
+                            JSON.parse(dataOld[0].ans)[4].Answer==='การจัดการ' ) { %>selected<% } %>>การจัดการ</option>
+                    </select>
+                </div>
+                <div>
+                    <input type="hidden" name="Q6" value="ปัญหาอื่น ๆ">
+                    <label for="result">ปัญหาอื่นๆ:</label>
+                    <p class="description">ระบุปัญหาที่พบจากการดำเนินโครงการ นอกเหนือจากที่กำหนดไว้</p>
+
+                    <textarea id="result" name="A6"
+                        placeholder="กรอกข้อความ...."><%= dataOld.length && dataOld[0].ans ? JSON.parse(dataOld[0].ans)[5].Answer : '' %></textarea>
+                </div>
+
+
+
+
+                <div>
+                    <input type="hidden" name="Q7" value="ผลลัพธ์">
+                    <label for="result">ผลลัพธ์:</label>
+                    <p class="description">ผลที่เกิดขึ้นต่อยอดจากผลผลิต หรือผลระยะยาวซึ่งเกิดเป็นผลจุดหมายปลายทาง
+                        หรือผลต่อเนื่องจากผลกระทบ</p>
+
+                    <textarea id="result" name="A7"
+                        placeholder="กรอกข้อความ...."><%= dataOld.length && dataOld[0].ans ? JSON.parse(dataOld[0].ans)[6].Answer : '' %></textarea>
+                </div>
+
+
+                <div>
+                    <input type="hidden" name="Q8" value="ปัญหา/อุปสรรค">
+
+                    <label for="problem">ปัญหา/อุปสรรค:</label>
+                    <p class="description">อธิบายรายละเอียดของปัญหาที่พบจากการดำเนินโครงการ</p>
+
+                    <textarea id="problem" name="A8"
+                        placeholder="กรอกข้อความ...."><%= dataOld.length && dataOld[0].ans ? JSON.parse(dataOld[0].ans)[7].Answer : '' %></textarea>
+                </div>
+
+
+
+
+                <div>
+                    <input type="hidden" name="Q9" value="แนวทางแก้ไข">
+                    <label for="solution">แนวทางแก้ไข:</label>
+                    <p class="description">ระบุวิธีการแก้ไขปัญหาที่พบจากการดำเนินโครงการ</p>
+                    <textarea id="solution" name="A9"
+                        placeholder="กรอกข้อความ...."><%= dataOld.length && dataOld[0].ans ? JSON.parse(dataOld[0].ans)[8].Answer : '' %></textarea>
+                </div>
+                <div>
+                    <input type="hidden" name="Q10" value="หมายเหตุ">
+                    <label for="note">หมายเหตุ:</label>
+                    <p class="description">ผลการดำเนินการอื่นๆที่ต้องการรายงาน</p>
+                    <textarea id="note" name="A10"
+                        placeholder="กรอกข้อความ...."><%= dataOld.length && dataOld[0].ans ? JSON.parse(dataOld[0].ans)[9].Answer : '' %></textarea>
+                </div>
+                <div>
+                    <input type="hidden" name="Q11" value="หมายเหตุ">
+                    <label for="note">งบประมาณที่ใช้ในการดำเนินการ:</label>
+                    <p class="description">ระบุงบประมาณที่เกิดขึ้นจากการดำเนินโครงการ</p>
+                    <textarea id="note" name="A11"
+                        placeholder="กรอกข้อความ...."><%= dataOld.length && dataOld[0].ans ? JSON.parse(dataOld[0].ans)[10].Answer : '' %></textarea>
+                </div>
+                <% question.forEach(item=> { %>
+                    <div class="display-none">
+                        <input type="hidden" value="<%= item.question %>" name="Q<%= item.questionID %>">
+                        <label for="A<%= item.questionID %>">
+                            <%= item.question %>:
+                        </label>
+                        <p class="description">
+                            <%= item.Description %>
+                        </p>
+                        <% let oldAnswer='' ; if (dataOld.length && dataOld[0].ans) { const
+                            ansArray=JSON.parse(dataOld[0].ans); ansArray.forEach(old=> {
+                            if (old.Question === item.question) {
+
+                            oldAnswer = old.Answer; // Use single equals for assignment
+                            }
+                            });
+                            }
+                            %>
+                            <textarea id="note" name="A<%= item.questionID %>"
+                                placeholder="กรอกข้อความ...."><%= oldAnswer %></textarea>
+                    </div>
+                    <% }); %>
+
+
+                        <div class="footer">
+                            <label>รายงานตามตัวชี้วัด</label>
+                        </div>
+
+                        <div>
+                            <!-- <input type="hidden" value="URL ของ Platform/Website CDP" name="KPI1"> -->
+                            <label for="urlPlatform">
+                                <%=formdata[0].kpiName %>:
+                            </label>
+                            <textarea id="urlPlatform" name="<%=formdata[0].kpiID  %>"
+                                placeholder="กรอกข้อความ...."><% if (datakpi.length) { %><%= datakpi[0].ans %><% } %></textarea>
+                        </div>
+                        <div>
+                            <!-- <input type="hidden" value="URL ของ Data Catalog" name="KPI2"> -->
+                            <label for="urlDatacatalog">
+                                <%=formdata[1].kpiName %>:
+                            </label>
+                            <textarea id="urlDatacatalog" name="<%=formdata[1].kpiID  %>"
+                                placeholder="กรอกข้อความ...."><% if (datakpi.length) { %><%= datakpi[1].ans %><% } %></textarea>
+                        </div>
+                        <div>
+                            <!-- <input type="hidden" value="URL ของ Data Dashboard" name="KPI3"> -->
+                            <label for="urlDatadashboard">
+                                <%=formdata[2].kpiName %>:
+                            </label>
+                            <textarea id="urlDatadashboard" name="<%=formdata[2].kpiID  %>"
+                                placeholder="กรอกข้อความ...."><% if (datakpi.length) { %><%= datakpi[2].ans %><% } %></textarea>
+                        </div>
+                        <div>
+                            <!-- <input type="hidden" value="URL อื่นๆ" name="KPI4"> -->
+                            <label for="urlElse">
+                                <%=formdata[3].kpiName %>:
+                            </label>
+                            <textarea id="urlElse" name="<%=formdata[3].kpiID  %>"
+                                placeholder="กรอกข้อความ...."><% if (datakpi.length) { %><%= datakpi[3].ans %><% } %></textarea>
+                        </div>
+                        <div>
+                            <!-- <input type="hidden" value="รูปแบบการลงทุนจัดทำ CDP" name="KPI5"> -->
+                            <label for="Investment">
+                                <%=formdata[4].kpiName %>:
+                            </label>
+                            <select id="Investment" name="<%=formdata[4].kpiID  %>">
+                                <option value="null" <% if (!datakpi.length || datakpi[4].ans==="null" ) { %>selected<%
+                                        } %>>ระบุ รูปแบบการลงทุน</option>
+                                <option value="ภาครัฐ" <% if (datakpi.length && datakpi[4].ans==="ภาครัฐ" ) { %>selected
+                                    <% } %>>ภาครัฐ</option>
+                                <option value="ภาคเอกชน" <% if (datakpi.length && datakpi[4].ans==="ภาคเอกชน" ) { %>
+                                    selected<% } %>>ภาคเอกชน</option>
+                                <option value="ภาครัฐร่วมเอกชน" <% if (datakpi.length &&
+                                    datakpi[4].ans==="ภาครัฐร่วมเอกชน" ) { %>selected<% } %>>ภาครัฐร่วมเอกชน</option>
+                            </select>
+                        </div>
+                        <div>
+                            <!-- <input type="hidden" value="แหล่งที่มาของงบประมาณ" name="KPI6"> -->
+                            <label for="source">
+                                <%=formdata[5].kpiName %>:
+                            </label>
+                            <textarea id="source" name="<%=formdata[5].kpiID  %>"
+                                placeholder="กรอกข้อความ...."><% if (datakpi.length) { %><%= datakpi[5].ans %><% } %></textarea>
+                        </div>
+                        <div>
+                            <!-- <input type="hidden" value="รูปแบบการขับเคลื่อนและกำกับดูแล CDP" name="KPI7"> -->
+                            <label for="Investment">
+                                <%=formdata[6].kpiName %> :
+                            </label>
+                            <select id="Investment" name="<%=formdata[6].kpiID  %>">
+                                <option value="null">ระบุ รูปแบบการลงทุน</option>
+                                <option value="ภาครัฐ" <% if (datakpi.length && datakpi[6].ans==="ภาครัฐ" ) { %>selected
+                                    <% } %>>ภาครัฐ</option>
+                                <option value="ภาคเอกชน" <% if (datakpi.length && datakpi[6].ans==="ภาคเอกชน" ) { %>
+                                    selected<% } %>>ภาคเอกชน</option>
+                                <option value="ภาครัฐร่วมเอกชน" <% if (datakpi.length &&
+                                    datakpi[6].ans==="ภาครัฐร่วมเอกชน" ) { %>selected<% } %>>ภาครัฐร่วมเอกชน</option>
+                            </select>
+                        </div>
+                        <div>
+                            <!-- <input type="hidden" value="การนำ CDP ไปใช้ให้เกิดประโยชน์" name="KPI8"> -->
+                            <label for="usecdp">
+                                <%=formdata[7].kpiName %>:
+                            </label>
+                            <textarea id="usecdp" name="<%=formdata[7].kpiID  %>"
+                                placeholder="กรอกข้อความ...."><% if (datakpi.length) { %><%= datakpi[7].ans %><% } %></textarea>
+                        </div>
+
+
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                        <!-- ปุ่มบันทึก -->
+                        <button type="submit" id="recordButton">บันทึก</button>
+
+                        <!-- ปุ่มส่งรายงาน -->
+                        <button type="button" id="submitButton">ส่งรายงาน</button>
+            </form>
+        </div>
+
+
+        <%- include('component/footer.ejs') %>
+
+</body>
+
+</html>
